@@ -57,6 +57,7 @@ namespace ProfPlan.ViewModels
 
         private void LoadData(object parameter)
         {
+            try
             {
                 TablesCollection.Clear();
                 string tabname = "";
@@ -114,11 +115,63 @@ namespace ProfPlan.ViewModels
                                             if (haveTeacher && !string.IsNullOrWhiteSpace(table.Rows[i][0].ToString()))
                                                 list.Add(new ExcelModel(Convert.ToInt32(table.Rows[i][0]),
                                                                        table.Rows[i][1].ToString(),
-                                                                       table.Rows[i][2].ToString()));
+                                                                       table.Rows[i][2].ToString(),
+                                                                       table.Rows[i][3].ToString(),
+                                                                       table.Rows[i][4].ToString(),
+                                                                       table.Rows[i][5].ToString(),
+                                                                       table.Rows[i][6].ToString(),
+                                                                       table.Rows[i][7].ToString(),
+                                                                       table.Rows[i][8].ToString(),
+                                                                       table.Rows[i][9].ToString(),
+                                                                       table.Rows[i][10].ToString(),
+                                                                       table.Rows[i][11].ToString(),
+                                                                       table.Rows[i][12].ToString(),
+                                                                       table.Rows[i][13].ToString(),
+                                                                       table.Rows[i][14].ToString(),
+                                                                       table.Rows[i][15].ToString(),
+                                                                       table.Rows[i][16].ToString(),
+                                                                       table.Rows[i][17].ToString(),
+                                                                       table.Rows[i][18].ToString(),
+                                                                       table.Rows[i][19].ToString(),
+                                                                       table.Rows[i][20].ToString(),
+                                                                       table.Rows[i][21].ToString(),
+                                                                       table.Rows[i][22].ToString(),
+                                                                       table.Rows[i][23].ToString(),
+                                                                       table.Rows[i][24].ToString(),
+                                                                       table.Rows[i][25].ToString(),
+                                                                       table.Rows[i][26].ToString(),
+                                                                       table.Rows[i][27].ToString(),
+                                                                       table.Rows[i][28].ToString()));
                                             else if (!haveTeacher)
                                                 list.Add(new ExcelModel(Convert.ToInt32(table.Rows[i][0]),
                                                                        "",
-                                                                       table.Rows[i][1].ToString()));
+                                                                       table.Rows[i][1].ToString(),
+                                                                       table.Rows[i][2].ToString(),
+                                                                       table.Rows[i][3].ToString(),
+                                                                       table.Rows[i][4].ToString(),
+                                                                       table.Rows[i][5].ToString(),
+                                                                       table.Rows[i][6].ToString(),
+                                                                       table.Rows[i][7].ToString(),
+                                                                       table.Rows[i][8].ToString(),
+                                                                       table.Rows[i][9].ToString(),
+                                                                       table.Rows[i][10].ToString(),
+                                                                       table.Rows[i][11].ToString(),
+                                                                       table.Rows[i][12].ToString(),
+                                                                       table.Rows[i][13].ToString(),
+                                                                       table.Rows[i][14].ToString(),
+                                                                       table.Rows[i][15].ToString(),
+                                                                       table.Rows[i][16].ToString(),
+                                                                       table.Rows[i][17].ToString(),
+                                                                       table.Rows[i][18].ToString(),
+                                                                       table.Rows[i][19].ToString(),
+                                                                       table.Rows[i][20].ToString(),
+                                                                       table.Rows[i][21].ToString(),
+                                                                       table.Rows[i][22].ToString(),
+                                                                       table.Rows[i][23].ToString(),
+                                                                       table.Rows[i][24].ToString(),
+                                                                       table.Rows[i][25].ToString(),
+                                                                       table.Rows[i][26].ToString(),
+                                                                       table.Rows[i][27].ToString()));
                                         }
                                         catch (Exception ex)
                                         {
@@ -139,6 +192,10 @@ namespace ProfPlan.ViewModels
                     OnPropertyChanged(nameof(SelectedTable));
                     
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding data: {ex.Message}");
             }
         }
     }
