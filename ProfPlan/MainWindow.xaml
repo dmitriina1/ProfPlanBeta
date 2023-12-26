@@ -18,7 +18,7 @@
             </Grid.RowDefinitions>
             <Menu Grid.Row="0" Margin="5,5" Background="Transparent">
                 <MenuItem Header="Файл" HorizontalAlignment="Left" FontSize="16">
-                    <MenuItem Header="Открыть" FontSize="14" HorizontalAlignment="Left"/>
+                    <MenuItem Header="Открыть" FontSize="14" HorizontalAlignment="Left" Command="{Binding LoadDataCommand}"/>
                     <MenuItem Header="Сохранить" FontSize="14" HorizontalAlignment="Left"/>
                 </MenuItem>
                 <MenuItem Header="Вид" HorizontalAlignment="Left" FontSize="16">
@@ -40,7 +40,19 @@
 
             </Menu>
 
-            <TabControl Grid.Row="1" Name="MainTabControl" Style="{DynamicResource TabControlStyle}"/>
+            <TabControl Grid.Row="1" Name="MainTabControl" ItemsSource="{Binding TablesCollection}" Style="{DynamicResource TabControlStyle}"  SelectedItem="{Binding SelectedTable, Mode=TwoWay}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Tablename}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="True" />
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+       
         </Grid>
     </Grid>
 </Window>
