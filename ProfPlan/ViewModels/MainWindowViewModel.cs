@@ -193,7 +193,7 @@ namespace ProfPlan.ViewModels
                     
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 MessageBox.Show($"Error adding data: {ex.Message}");
             }
