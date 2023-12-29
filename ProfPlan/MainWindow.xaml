@@ -48,7 +48,7 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="True" />
+                        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="True"/>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
