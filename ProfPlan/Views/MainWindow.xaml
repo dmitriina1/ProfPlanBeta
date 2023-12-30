@@ -30,7 +30,7 @@
                     <MenuItem Header="Перенести преподавателей" FontSize="14" HorizontalAlignment="Left"/>
                 </MenuItem>
                 <MenuItem Header="Преподаватели" HorizontalAlignment="Left" FontSize="16">
-                    <MenuItem Header="Список преподавателей" FontSize="14" HorizontalAlignment="Left"/>
+                    <MenuItem Header="Список преподавателей" FontSize="14" HorizontalAlignment="Left" Command="{Binding OpenTeachersCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Отчеты" HorizontalAlignment="Left" FontSize="16">
                 </MenuItem>

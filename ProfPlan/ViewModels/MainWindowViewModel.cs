@@ -14,6 +14,7 @@ using ProfPlan.ViewModels.Base;
 using ProfPlan.Models;
 using ProfPlan.Commads;
 using ExcelDataReader;
+using ProfPlan.Views;
 
 namespace ProfPlan.ViewModels
 {
@@ -53,6 +54,28 @@ namespace ProfPlan.ViewModels
         public ICommand LoadDataCommand
         {
             get { return _loadDataCommand ?? (_loadDataCommand = new RelayCommand(LoadData)); }
+        }
+        private static TeachersWindow teachersWindow;
+
+        private void OpenTeachersWindow()
+        {
+            if (teachersWindow == null)
+            {
+                teachersWindow = new TeachersWindow();
+                teachersWindow.Closed += (sender, e) => teachersWindow = null;
+                teachersWindow.Show();
+            }
+            else
+            {
+                teachersWindow.Activate();
+            }
+        }
+
+        private RelayCommand _openTeachersCommand;
+
+        public ICommand OpenTeachersCommand
+        {
+            get { return _openTeachersCommand ?? (_openTeachersCommand = new RelayCommand(param => OpenTeachersWindow())); }
         }
 
         private void LoadData(object parameter)
