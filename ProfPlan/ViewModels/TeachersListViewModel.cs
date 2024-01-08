@@ -1,5 +1,6 @@
 ﻿using ProfPlan.Commads;
 using ProfPlan.Models;
+using ProfPlan.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 
 namespace ProfPlan.ViewModels
 {
-    public class TeachersListViewModel: INotifyPropertyChanged
+    public class TeachersListViewModel: ViewModel
     {
 
         public ObservableCollection<Teacher> Teachers { get; set; }
@@ -54,12 +55,7 @@ namespace ProfPlan.ViewModels
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+       
         public void RemoveSelectedUser(Teacher teacher)
         {
             if (MessageBox.Show($"Вы уверены, что хотите удалить пользователя {teacher.LastName} {teacher.FirstName} {teacher.MiddleName}?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
