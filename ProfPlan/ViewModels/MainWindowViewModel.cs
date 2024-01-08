@@ -55,28 +55,6 @@ namespace ProfPlan.ViewModels
         {
             get { return _loadDataCommand ?? (_loadDataCommand = new RelayCommand(LoadData)); }
         }
-        private static TeachersWindow teachersWindow;
-
-        private void OpenTeachersWindow()
-        {
-            if (teachersWindow == null)
-            {
-                teachersWindow = new TeachersWindow();
-                teachersWindow.Closed += (sender, e) => teachersWindow = null;
-                teachersWindow.Show();
-            }
-            else
-            {
-                teachersWindow.Activate();
-            }
-        }
-
-        private RelayCommand _openTeachersCommand;
-
-        public ICommand OpenTeachersCommand
-        {
-            get { return _openTeachersCommand ?? (_openTeachersCommand = new RelayCommand(param => OpenTeachersWindow())); }
-        }
 
         private void LoadData(object parameter)
         {
@@ -213,13 +191,55 @@ namespace ProfPlan.ViewModels
                     SelectedTable = TablesCollection.FirstOrDefault();
                     OnPropertyChanged(nameof(TablesCollection));
                     OnPropertyChanged(nameof(SelectedTable));
-                    
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Error adding data: {ex.Message}");
             }
         }
+
+        private TeachersViewModel mainViewModel = new TeachersViewModel();
+        private RelayCommand _showTeachersListCommand;
+        public ICommand ShowTeachersListCommand
+        {
+            get { return _showTeachersListCommand ?? (_showTeachersListCommand = new RelayCommand(ShowTeachersList)); }
+        }
+        private void ShowTeachersList(object obj)
+        {
+            var mainWindow = obj as Window;
+
+            TeacherListWindow addUserWin = new TeacherListWindow();
+            addUserWin.Owner = mainWindow;
+            addUserWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            addUserWin.ShowDialog();
+
+
+        }
+
+        //public ICommand  { get; set; }
+        //public TeachersViewModel()
+        //{
+        //    Teachers = TeacherManager.GetTeachers();
+
+        //    ShowWindowCommand = new RelayCommand(ShowWindow, CanShowWindow);
+
+        //}
+
+        //private bool CanShowWindow(object obj)
+        //{
+        //    return true;
+        //}
+
+        //private void ShowWindow(object obj)
+        //{
+        //    var mainWindow = obj as Window;
+
+        //    TeacherAddWindow addUserWin = new TeacherAddWindow();
+        //    addUserWin.Owner = mainWindow;
+        //    addUserWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        //    addUserWin.ShowDialog();
+        //}
     }
-    }
+}

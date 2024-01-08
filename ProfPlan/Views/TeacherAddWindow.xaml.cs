@@ -1,6 +1,4 @@
-﻿using ProfPlan.ViewModels;
-using ProfPlan.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,20 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ProfPlan.Models;
+using ProfPlan.ViewModels;
 
-namespace ProfPlan
+namespace ProfPlan.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для TeacherAddWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TeacherAddWindow : Window
     {
-        public MainWindow()
+        public TeacherAddWindow()
         {
             InitializeComponent();
+            AddTeacherViewModel addTeacherViewModel = new AddTeacherViewModel();
+            this.DataContext = addTeacherViewModel;
         }
-
     }
 }
