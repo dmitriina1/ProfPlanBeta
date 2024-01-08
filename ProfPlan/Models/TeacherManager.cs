@@ -9,7 +9,32 @@ namespace ProfPlan.Models
 {
     public class TeacherManager
     {
-        public static ObservableCollection<Teacher> _DatabaseUsers = new ObservableCollection<Teacher>() { new Teacher() { LastName = "Дмитриевич", FirstName = "Диман"} };
+        public static ObservableCollection<Teacher> _DatabaseUsers = new ObservableCollection<Teacher>() {
+           new Teacher
+        {
+            Institute = "Institute1",
+            Department = "Department1",
+            LastName = "LastName1",
+            FirstName = "FirstName1",
+            MiddleName = "MiddleName1",
+            Position = "Position1",
+            AcademicDegree = "AcademicDegree1",
+            Workload = "Workload1"
+        },
+
+         new Teacher
+        {
+            Institute = "Institute2",
+            Department = "Department2",
+            LastName = "LastName2",
+            FirstName = "FirstName2",
+            MiddleName = "MiddleName2",
+            Position = "Position2",
+            AcademicDegree = "AcademicDegree2",
+            Workload = "Workload2"
+        }
+    
+        };
 
         public static ObservableCollection<Teacher> GetTeachers()
         {

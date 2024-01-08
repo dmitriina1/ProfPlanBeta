@@ -218,6 +218,9 @@ namespace ProfPlan.ViewModels
             teacherlist.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             teacherlist.ShowDialog();
         }
+
+
+
         //public ObservableCollection<Teacher> Teachers { get; set; }
 
         //private Teacher _selectedTeacher;
