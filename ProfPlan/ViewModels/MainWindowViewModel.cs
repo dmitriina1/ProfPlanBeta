@@ -199,14 +199,17 @@ namespace ProfPlan.ViewModels
                 MessageBox.Show($"Error adding data: {ex.Message}");
             }
         }
-
-        private TeachersViewModel mainViewModel = new TeachersViewModel();
-        private RelayCommand _showTeachersListCommand;
-        public ICommand ShowTeachersListCommand
+        public ICommand ShowTeachersListCommand { get; set; }
+        public MainWindowViewModel()
         {
-            get { return _showTeachersListCommand ?? (_showTeachersListCommand = new RelayCommand(ShowTeachersList)); }
+            ShowTeachersListCommand = new RelayCommand(ShowWindow, CanShowWindow);
         }
-        private void ShowTeachersList(object obj)
+        private bool CanShowWindow(object obj)
+        {
+            return true;
+        }
+
+        private void ShowWindow(object obj)
         {
             var mainWindow = obj as Window;
 
@@ -214,32 +217,34 @@ namespace ProfPlan.ViewModels
             addUserWin.Owner = mainWindow;
             addUserWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             addUserWin.ShowDialog();
-
-
         }
+        //public ObservableCollection<Teacher> Teachers { get; set; }
 
-        //public ICommand  { get; set; }
-        //public TeachersViewModel()
+        //private Teacher _selectedTeacher;
+        //public Teacher SelectedTeacher
         //{
-        //    Teachers = TeacherManager.GetTeachers();
-
-        //    ShowWindowCommand = new RelayCommand(ShowWindow, CanShowWindow);
-
+        //    get { return _selectedTeacher; }
+        //    set
+        //    {
+        //        _selectedTeacher = value;
+        //        OnPropertyChanged(nameof(SelectedTeacher));
+        //    }
         //}
 
-        //private bool CanShowWindow(object obj)
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        //protected virtual void OnPropertyChanged(string propertyName)
         //{
-        //    return true;
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         //}
-
-        //private void ShowWindow(object obj)
+        //public void RemoveSelectedUser(Teacher teacher)
         //{
-        //    var mainWindow = obj as Window;
-
-        //    TeacherAddWindow addUserWin = new TeacherAddWindow();
-        //    addUserWin.Owner = mainWindow;
-        //    addUserWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        //    addUserWin.ShowDialog();
+        //    if (MessageBox.Show($"Вы уверены, что хотите удалить пользователя {teacher.LastName} {teacher.FirstName} {teacher.MiddleName}?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        //    {
+        //        // Удаление пользователя из коллекции и обновление представления
+        //        Teachers.Remove(teacher);
+        //    }
         //}
     }
 }

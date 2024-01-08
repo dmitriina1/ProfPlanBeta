@@ -68,13 +68,9 @@
     <Compile Include="Models\TableCollection.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TeacherManager.cs" />
-    <Compile Include="ViewModels\AddTeacherViewModel.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\TeachersViewModel.cs" />
-    <Compile Include="Views\TeacherAddWindow.xaml.cs">
-      <DependentUpon>TeacherAddWindow.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\TeachersListViewModel.cs" />
     <Compile Include="Views\TeacherListWindow.xaml.cs">
       <DependentUpon>TeacherListWindow.xaml</DependentUpon>
     </Compile>
@@ -91,10 +87,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\Styles\Windows.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TeacherAddWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,27 +1,27 @@
 ﻿using ProfPlan.Commads;
 using ProfPlan.Models;
-using ProfPlan.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using ProfPlan.Models;
-using ProfPlan.ViewModels;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ProfPlan.ViewModels
 {
-    public class TeachersViewModel
+    public class TeachersListViewModel: INotifyPropertyChanged
     {
+
         public ObservableCollection<Teacher> Teachers { get; set; }
 
-
         public ICommand ShowWindowCommand { get; set; }
-        public TeachersViewModel()
+
+
+
+        public TeachersListViewModel()
         {
             Teachers = TeacherManager.GetTeachers();
 
@@ -36,25 +36,23 @@ namespace ProfPlan.ViewModels
 
         private void ShowWindow(object obj)
         {
-            var mainWindow = obj as Window;
-
-            TeacherAddWindow addUserWin = new TeacherAddWindow();
-            addUserWin.Owner = mainWindow;
-            addUserWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            addUserWin.ShowDialog();
+            MessageBox.Show("Класс");
 
 
         }
-        private Teacher _selectedUser;
-        public Teacher SelectedUser
+
+
+        private Teacher _selectedTeacher;
+        public Teacher SelectedTeacher
         {
-            get { return _selectedUser; }
+            get { return _selectedTeacher; }
             set
             {
-                _selectedUser = value;
-                OnPropertyChanged(nameof(SelectedUser));
+                _selectedTeacher = value;
+                OnPropertyChanged(nameof(SelectedTeacher));
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
