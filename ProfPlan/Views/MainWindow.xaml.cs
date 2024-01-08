@@ -24,6 +24,8 @@ namespace ProfPlan
         public MainWindow()
         {
             InitializeComponent();
+            MainWindowViewModel TeacherListWindow = new MainWindowViewModel();
+            this.DataContext = TeacherListWindow;
         }
 
     }

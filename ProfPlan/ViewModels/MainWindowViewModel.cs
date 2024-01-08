@@ -211,12 +211,12 @@ namespace ProfPlan.ViewModels
 
         private void ShowWindow(object obj)
         {
-            var mainWindow = obj as Window;
+            var techerswindow = obj as Window;
 
-            TeacherListWindow addUserWin = new TeacherListWindow();
-            addUserWin.Owner = mainWindow;
-            addUserWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            addUserWin.ShowDialog();
+            TeacherListWindow teacherlist = new TeacherListWindow();
+            teacherlist.Owner = techerswindow;
+            teacherlist.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            teacherlist.ShowDialog();
         }
         //public ObservableCollection<Teacher> Teachers { get; set; }
 
