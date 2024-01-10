@@ -219,35 +219,5 @@ namespace ProfPlan.ViewModels
             teacherlist.ShowDialog();
         }
 
-
-
-        //public ObservableCollection<Teacher> Teachers { get; set; }
-
-        //private Teacher _selectedTeacher;
-        //public Teacher SelectedTeacher
-        //{
-        //    get { return _selectedTeacher; }
-        //    set
-        //    {
-        //        _selectedTeacher = value;
-        //        OnPropertyChanged(nameof(SelectedTeacher));
-        //    }
-        //}
-
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //protected virtual void OnPropertyChanged(string propertyName)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
-        //public void RemoveSelectedUser(Teacher teacher)
-        //{
-        //    if (MessageBox.Show($"Вы уверены, что хотите удалить пользователя {teacher.LastName} {teacher.FirstName} {teacher.MiddleName}?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-        //    {
-        //        // Удаление пользователя из коллекции и обновление представления
-        //        Teachers.Remove(teacher);
-        //    }
-        //}
     }
 }
