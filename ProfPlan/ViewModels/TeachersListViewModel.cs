@@ -1,6 +1,7 @@
 ﻿using ProfPlan.Commads;
 using ProfPlan.Models;
 using ProfPlan.ViewModels.Base;
+using ProfPlan.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -37,7 +38,12 @@ namespace ProfPlan.ViewModels
 
         private void ShowWindow(object obj)
         {
-            MessageBox.Show("Класс");
+            var mainWindow = obj as Window;
+
+            AddTeacherWindow addTeacherWin = new AddTeacherWindow();
+            addTeacherWin.Owner = mainWindow;
+            addTeacherWin.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            addTeacherWin.ShowDialog();
 
 
         }
@@ -56,7 +62,7 @@ namespace ProfPlan.ViewModels
 
 
        
-        public void RemoveSelectedUser(Teacher teacher)
+        public void RemoveSelectedTeacher(Teacher teacher)
         {
             if (MessageBox.Show($"Вы уверены, что хотите удалить пользователя {teacher.LastName} {teacher.FirstName} {teacher.MiddleName}?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {

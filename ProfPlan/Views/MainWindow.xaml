@@ -57,7 +57,7 @@
 
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
-                                            <ComboBox ItemsSource="{Binding Teacher}" IsEditable="True"/>
+                                            <ComboBox ItemsSource="{Binding Teachers}" IsEditable="True"/>
                                             <!--<DatePicker SelectedDate="{Binding Teacher}"/>-->
                                             <!--<TextBlock/>-->
                                         </DataTemplate>

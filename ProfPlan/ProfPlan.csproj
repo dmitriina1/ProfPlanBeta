@@ -68,12 +68,20 @@
     <Compile Include="Models\TableCollection.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TeacherManager.cs" />
+    <Compile Include="ViewModels\AddTeacherViewModel.cs" />
     <Compile Include="ViewModels\Base\ViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\TeachersListViewModel.cs" />
+    <Compile Include="Views\AddTeacherWindow.xaml.cs">
+      <DependentUpon>AddTeacherWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TeacherListWindow.xaml.cs">
       <DependentUpon>TeacherListWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddTeacherWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
