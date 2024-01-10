@@ -316,7 +316,7 @@
         </Style.Triggers>
     </Style>
     <!--стили для TeacherListWindow и TeacherAddWindow-->
-    <Style TargetType="{x:Type ListViewItem}" x:Key="ListViewStyle">
+    <!--<Style TargetType="{x:Type ListViewItem}" x:Key="ListViewStyle">
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Height" Value="35"/>
         <Setter Property="FontSize" Value="12"/>
@@ -341,7 +341,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
 
     <Style TargetType="{x:Type Button}" x:Key="ButtonStyle">
