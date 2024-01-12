@@ -38,7 +38,7 @@ namespace ProfPlan.ViewModels
 
         private void AddTeacher(object obj)
         {
-            Teacher checkUser = TeacherManager.GetTeacherByName(Institute, Department, Lastname, Firstname, Middlename, Position);
+            Teacher checkUser = TeacherManager.GetTeacherByName(Lastname, Firstname, Middlename);
             if (existingUser == null && CanAdd == true && checkUser == null)
             {
                 TeacherManager.AddTeacher(new Teacher() { Institute = Institute, Department = Department, LastName = Lastname, FirstName = Firstname, MiddleName = Middlename, Position = Position, AcademicDegree = AcademicDegree, Workload = Workload });
@@ -47,7 +47,7 @@ namespace ProfPlan.ViewModels
             {
                 if (existingUser == null)
                 {
-                    existingUser = TeacherManager.GetTeacherByName(Institute, Department, Lastname, Firstname, Middlename, Position);
+                    existingUser = TeacherManager.GetTeacherByName(Lastname, Firstname, Middlename);
 
                 }
                 existingUser.Institute = Institute;
@@ -73,7 +73,7 @@ namespace ProfPlan.ViewModels
             Position = teacher?.Position;
             AcademicDegree = teacher?.AcademicDegree;
             Workload = teacher?.Workload;
-            existingUser = TeacherManager.GetTeacherByName(Institute, Department, Lastname, Firstname, Middlename, Position);
+            existingUser = TeacherManager.GetTeacherByName(Lastname, Firstname, Middlename);
             if (existingUser == null)
             {
                 CanAdd = true;

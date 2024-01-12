@@ -48,9 +48,9 @@ namespace ProfPlan.Models
             _DatabaseUsers.Add(teacher);
 
         }
-        public static Teacher GetTeacherByName(string institute, string department, string lastname, string firstname, string middlename, string position)
+        public static Teacher GetTeacherByName(string lastname, string firstname, string middlename)
         {
-            return _DatabaseUsers.FirstOrDefault(teacher => (teacher.LastName == lastname || teacher.FirstName == firstname) && teacher.MiddleName == middlename && teacher.Institute == institute && teacher.Department == department && teacher.Position == position);
+            return _DatabaseUsers.FirstOrDefault(teacher => teacher.LastName == lastname && teacher.FirstName == firstname && teacher.MiddleName == middlename);
         }
     }
 }
