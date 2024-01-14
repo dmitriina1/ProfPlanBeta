@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProfPlan.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,21 @@ using System.Threading.Tasks;
 
 namespace ProfPlan.Models
 {
-    public class ExcelModel
+    public class ExcelViewModel : ViewModel
     {
+        string _teacher;
+
+        public IReadOnlyList<string> Teachers { get; }
         public int Number { get; set; }
-        public string Teacher { get; set; }
+        public string Teacher 
+        { 
+            get { return _teacher; }            
+            set
+            {
+                _teacher = value; 
+                OnPropertyChanged(nameof(Teacher));
+            } 
+        }
         public string Discipline { get; set; }
         public string Term { get; set; }
         public string Group { get; set; }
@@ -37,8 +49,9 @@ namespace ProfPlan.Models
         public string Total { get; set; }
         public string Budget { get; set; }
         public string Commercial { get; set; }
-        public ExcelModel(int number, string teacher, string discipline, string term, string group, string institute, string groupCount, string subGroup, string formOfStudy, string studentsCount, string commercicalStudentsCount, string weeks, string reportingForm, string lectures, string practices, string laboratory, string consultations, string tests, string exams, string courseWorks, string courseProjects, string gEKAndGAK, string diploma, string rGZ, string reviewDiploma, string other, string total, string budget, string commercial)
+        public ExcelViewModel(IReadOnlyList<string> teachers, int number, string teacher, string discipline, string term, string group, string institute, string groupCount, string subGroup, string formOfStudy, string studentsCount, string commercicalStudentsCount, string weeks, string reportingForm, string lectures, string practices, string laboratory, string consultations, string tests, string exams, string courseWorks, string courseProjects, string gEKAndGAK, string diploma, string rGZ, string reviewDiploma, string other, string total, string budget, string commercial)
         {
+            Teachers = teachers;
             Number = number;
             Teacher = teacher;
             Discipline = discipline;

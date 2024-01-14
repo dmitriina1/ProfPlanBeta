@@ -12,9 +12,9 @@ namespace ProfPlan.Models
     public class TableCollection: ViewModel, INotifyPropertyChanged
     {
         private string _tablename = null;
-        private ObservableCollection<ExcelModel> _excelData = new ObservableCollection<ExcelModel>();
+        private ObservableCollection<ExcelViewModel> _excelData = new ObservableCollection<ExcelViewModel>();
 
-        public ObservableCollection<ExcelModel> ExcelData
+        public ObservableCollection<ExcelViewModel> ExcelData
         {
             get { return _excelData; }
             set
@@ -38,7 +38,7 @@ namespace ProfPlan.Models
                 }
             }
         }
-        public TableCollection(string tablename, ObservableCollection<ExcelModel> col)
+        public TableCollection(string tablename, ObservableCollection<ExcelViewModel> col)
         {
             Tablename = tablename;
             ExcelData = col;

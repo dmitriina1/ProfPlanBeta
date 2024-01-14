@@ -45,7 +45,7 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False">
+                        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False" IsReadOnly="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
                                 <DataGridTemplateColumn Header="Преподаватель">
@@ -57,7 +57,7 @@
 
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
-                                            <ComboBox ItemsSource="{Binding Teacher}" IsEditable="True"/>
+                                            <ComboBox ItemsSource="{Binding Teachers}"  SelectedItem="{Binding Teacher}" IsEditable="True"/>
                                             <!--<DatePicker SelectedDate="{Binding Teacher}"/>-->
                                             <!--<TextBlock/>-->
                                         </DataTemplate>
