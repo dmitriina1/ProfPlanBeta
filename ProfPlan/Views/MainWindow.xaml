@@ -45,10 +45,10 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False" IsReadOnly="False">
+                        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="№" Binding="{Binding Number}"/>
-                                <DataGridTemplateColumn Header="Преподаватель">
+                                <DataGridTextColumn Header="№" Binding="{Binding Number}" IsReadOnly="True"/>
+                                <!--<DataGridTemplateColumn Header="Преподаватель">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Teacher}"/>
@@ -57,12 +57,14 @@
 
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
-                                            <ComboBox ItemsSource="{Binding Teachers}"  SelectedItem="{Binding Teacher}" IsEditable="True"/>
-                                            <!--<DatePicker SelectedDate="{Binding Teacher}"/>-->
-                                            <!--<TextBlock/>-->
+                                            <ComboBox ItemsSource="{Binding Teacher}" IsEditable="True"/>
+                                            --><!--<DatePicker SelectedDate="{Binding Teacher}"/>-->
+                                            <!--<TextBlock/>--><!--
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
-                                </DataGridTemplateColumn>
+                                </DataGridTemplateColumn>-->
+                                <DataGridTextColumn Header="Преподаватель" Binding="{Binding Teacher}"/>
+
                                 <DataGridTextColumn Header="Дисциплина" Binding="{Binding Discipline}"/>
                                 <DataGridTextColumn Header="Семестр" Binding="{Binding Term}"/>
                                 <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>

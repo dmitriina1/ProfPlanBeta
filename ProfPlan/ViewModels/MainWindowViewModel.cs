@@ -21,6 +21,7 @@ namespace ProfPlan.ViewModels
 
     internal class MainWindowViewModel : ViewModel, INotifyPropertyChanged
     {
+        private int Number;
         private DataTableCollection tableCollection;
         private ObservableCollection<TableCollection> _tablesCollection = new ObservableCollection<TableCollection>();
 
@@ -60,7 +61,6 @@ namespace ProfPlan.ViewModels
         {
             try
             {
-                TablesCollection.Clear();
                 string tabname = "";
                 var openFileDialog = new OpenFileDialog() { Filter = "Excel Files|*.xls;*.xlsx" };
                 if (openFileDialog.ShowDialog() == true)
@@ -74,11 +74,12 @@ namespace ProfPlan.ViewModels
                                 ConfigureDataTable = (_) => new ExcelDataTableConfiguration() { UseHeaderRow = false }
                             });
                             tableCollection = result.Tables;
-
+                            
+                TablesCollection.Clear();
                             foreach (DataTable table in tableCollection)
                             {
                                 tabname = table.TableName;
-                                ObservableCollection<ExcelViewModel> list = new ObservableCollection<ExcelViewModel>();
+                                ObservableCollection<ExcelModel> list = new ObservableCollection<ExcelModel>();
                                 int rowIndex = -1;
                                 bool haveTeacher = false;
 
@@ -109,17 +110,13 @@ namespace ProfPlan.ViewModels
                                 if (table.TableName.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) == -1 &&
                                     table.TableName.IndexOf("доп", StringComparison.OrdinalIgnoreCase) == -1)
                                 {
-                                    //var teachers = table.Rows.Cast<DataRow>().Select(r => r[1].ToString()).Distinct().ToArray();
-                                    var teachers = TeacherManager.GetTeachers().Select(t => $"{t.FirstName} {t.LastName}").ToArray();
-
                                     for (int i = rowIndex + 1; i < table.Rows.Count; i++)
                                     {
                                         try
                                         {
                                             if (haveTeacher && !string.IsNullOrWhiteSpace(table.Rows[i][0].ToString()))
-                                                list.Add(new ExcelViewModel(
-                                                                       teachers,
-                                                                       Convert.ToInt32(table.Rows[i][0]),
+                                            {
+                                                list.Add(new ExcelModel(Convert.ToInt32(table.Rows[i][0]),
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
                                                                        table.Rows[i][3].ToString(),
@@ -148,9 +145,11 @@ namespace ProfPlan.ViewModels
                                                                        table.Rows[i][26].ToString(),
                                                                        table.Rows[i][27].ToString(),
                                                                        table.Rows[i][28].ToString()));
+                                                Number++;
+                                            }
                                             else if (!haveTeacher)
-                                                list.Add(new ExcelViewModel(teachers, 
-                                                                       Convert.ToInt32(table.Rows[i][0]),
+                                            {
+                                                list.Add(new ExcelModel(Convert.ToInt32(table.Rows[i][0]),
                                                                        "",
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
@@ -179,6 +178,8 @@ namespace ProfPlan.ViewModels
                                                                        table.Rows[i][25].ToString(),
                                                                        table.Rows[i][26].ToString(),
                                                                        table.Rows[i][27].ToString()));
+                                                Number++;
+                                            }
                                         }
                                         catch (Exception ex)
                                         {
