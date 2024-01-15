@@ -25,6 +25,7 @@
                     <MenuItem Header="Очистить таблицу" FontSize="14" HorizontalAlignment="Left"/>
                     <!--<MenuItem Header="Перенести данные" FontSize="14" HorizontalAlignment="Left"/>-->
                     <MenuItem Header="Перенести преподавателей" FontSize="14" HorizontalAlignment="Left"/>
+                    <MenuItem Header="Сгенерировать листы" FontSize="14" HorizontalAlignment="Left" Command="{Binding GenerateTeachersLists}"/>
                 </MenuItem>
                 <MenuItem Header="Преподаватели" HorizontalAlignment="Left" FontSize="16">
                     <MenuItem Header="Список преподавателей" FontSize="14" HorizontalAlignment="Left" Command="{Binding ShowTeachersListCommand}"/>

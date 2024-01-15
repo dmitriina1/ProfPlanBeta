@@ -21,6 +21,7 @@ namespace ProfPlan.ViewModels
 
     internal class MainWindowViewModel : ViewModel, INotifyPropertyChanged
     {
+        private int CountOfLists;
         private int Number;
         private DataTableCollection tableCollection;
         private ObservableCollection<TableCollection> _tablesCollection = new ObservableCollection<TableCollection>();
@@ -74,8 +75,9 @@ namespace ProfPlan.ViewModels
                                 ConfigureDataTable = (_) => new ExcelDataTableConfiguration() { UseHeaderRow = false }
                             });
                             tableCollection = result.Tables;
-                            
-                TablesCollection.Clear();
+                            CountOfLists = tableCollection.Count;
+                            TablesCollection.Clear();
+                            Number = 0;
                             foreach (DataTable table in tableCollection)
                             {
                                 tabname = table.TableName;
@@ -224,6 +226,65 @@ namespace ProfPlan.ViewModels
             teacherlist.Owner = techerswindow;
             teacherlist.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             teacherlist.ShowDialog();
+        }
+
+        private RelayCommand _generateTeachersLists;
+        public ICommand GenerateTeachersLists
+        {
+            get { return _generateTeachersLists ?? (_generateTeachersLists = new RelayCommand(GenerateTeacher)); }
+        }
+        private void GenerateTeacher(object parameter)
+        {
+            int selectedtab = -1;
+            //if (SelectedTable.Tablename.ToString().Contains("ПИиИС"))
+            if (SelectedTable.Tablename.ToString().Contains("Лист"))
+            {
+                //for (int i=0;i<TablesCollection.Count;i++)
+                //{
+                //    if (TablesCollection[i].Tablename.ToString() == SelectedTable.Tablename.ToString())
+                //    {
+                //        selectedtab = i;
+                //        break;
+                //    }
+                //}
+                if (CountOfLists != TablesCollection.Count)
+                    for (int i = TablesCollection.Count - 1; i >= CountOfLists; i--)
+                    {
+                        TablesCollection.RemoveAt(i);
+                    }
+
+                TableCollection foundTableCollection = TablesCollection.FirstOrDefault(tc => tc.Tablename == SelectedTable.Tablename);
+                selectedtab = TablesCollection.IndexOf(foundTableCollection);
+                #region Метод для создания TableCollection по преподавателям
+
+                var uniqueTeachers = TablesCollection[selectedtab].ExcelData
+                                    .Select(data => data.Teacher)
+                                    .Distinct()
+                                    .ToList();
+
+                foreach (var teacher in uniqueTeachers)
+                {
+                    var teacherTableCollection = new TableCollection() { };
+                    if (teacher.ToString() != "")
+                        teacherTableCollection = new TableCollection(teacher.ToString().Split(' ')[0]);
+                    else
+                        teacherTableCollection = new TableCollection("Незаполненные");
+                    // Фильтруем строки для текущего преподавателя
+                    var teacherRows = TablesCollection[selectedtab].ExcelData
+                        .Where(data => data.Teacher == teacher)
+                        .ToList();
+
+                    // Добавляем отфильтрованные строки в новую TableCollection
+                    foreach (ExcelModel techrow in teacherRows)
+                        teacherTableCollection.ExcelData.Add(techrow);
+
+                    // Добавляем новую TableCollection в общую коллекцию
+                    TablesCollection.Add(teacherTableCollection);
+                }
+
+
+                #endregion
+            }
         }
 
     }
