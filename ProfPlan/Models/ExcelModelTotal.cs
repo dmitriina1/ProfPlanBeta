@@ -26,6 +26,5 @@ namespace ProfPlan.Models
             SpringHours = springHours;
             Difference = difference;
         }
-
     }
 }

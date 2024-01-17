@@ -87,5 +87,6 @@ namespace ProfPlan.Models
             Budget = budget;
             Commercial = commercial;
         }
+        
     }
 }

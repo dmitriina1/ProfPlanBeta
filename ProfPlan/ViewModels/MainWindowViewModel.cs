@@ -15,6 +15,7 @@ using ProfPlan.Models;
 using ProfPlan.Commads;
 using ExcelDataReader;
 using ProfPlan.Views;
+using System.Text.RegularExpressions;
 
 namespace ProfPlan.ViewModels
 {
@@ -22,10 +23,9 @@ namespace ProfPlan.ViewModels
     internal class MainWindowViewModel : ViewModel, INotifyPropertyChanged
     {
         private int CountOfLists;
-        private int Number;
+        private int Number = 1;
         private DataTableCollection tableCollection;
         private ObservableCollection<TableCollection> _tablesCollection = new ObservableCollection<TableCollection>();
-
         public ObservableCollection<TableCollection> TablesCollection
         {
             get { return _tablesCollection; }
@@ -77,9 +77,10 @@ namespace ProfPlan.ViewModels
                             tableCollection = result.Tables;
                             CountOfLists = tableCollection.Count;
                             TablesCollection.Clear();
-                            Number = 0;
+
                             foreach (DataTable table in tableCollection)
                             {
+                                Number = 1;
                                 tabname = table.TableName;
                                 ObservableCollection<ExcelModel> list = new ObservableCollection<ExcelModel>();
                                 int rowIndex = -1;
@@ -120,7 +121,7 @@ namespace ProfPlan.ViewModels
                                         {
                                             if (haveTeacher && !string.IsNullOrWhiteSpace(table.Rows[i][0].ToString()))
                                             {
-                                                list.Add(new ExcelModel(teachers, Convert.ToInt32(table.Rows[i][0]),
+                                                list.Add(new ExcelModel(teachers, Number,
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
                                                                        table.Rows[i][3].ToString(),
@@ -153,7 +154,7 @@ namespace ProfPlan.ViewModels
                                             }
                                             else if (!haveTeacher)
                                             {
-                                                list.Add(new ExcelModel(teachers,Convert.ToInt32(table.Rows[i][0]),
+                                                list.Add(new ExcelModel(teachers, Number,
                                                                        "",
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
@@ -190,6 +191,10 @@ namespace ProfPlan.ViewModels
                                             MessageBox.Show($"Error adding data: {ex.Message}");
                                         }
                                     }
+                                }
+                                else if (table.TableName.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) != -1)
+                                {
+
                                 }
 
                                 // Добавление коллекции в TablesCollection
@@ -257,16 +262,8 @@ namespace ProfPlan.ViewModels
         {
             int selectedtab = -1;
             //if (SelectedTable.Tablename.ToString().Contains("ПИиИС"))
-            if (SelectedTable.Tablename.ToString().Contains("Лист"))
+            if (SelectedTable.Tablename.ToString().Contains("ПИиИС"))
             {
-                //for (int i=0;i<TablesCollection.Count;i++)
-                //{
-                //    if (TablesCollection[i].Tablename.ToString() == SelectedTable.Tablename.ToString())
-                //    {
-                //        selectedtab = i;
-                //        break;
-                //    }
-                //}
                 if (CountOfLists != TablesCollection.Count)
                     for (int i = TablesCollection.Count - 1; i >= CountOfLists; i--)
                     {
@@ -275,7 +272,7 @@ namespace ProfPlan.ViewModels
 
                 TableCollection foundTableCollection = TablesCollection.FirstOrDefault(tc => tc.Tablename == SelectedTable.Tablename);
                 selectedtab = TablesCollection.IndexOf(foundTableCollection);
-                #region Метод для создания TableCollection по преподавателям
+                // Метод для создания TableCollection по преподавателям
 
                 var uniqueTeachers = TablesCollection[selectedtab].ExcelData
                                     .Select(data => data.Teacher)
@@ -289,22 +286,65 @@ namespace ProfPlan.ViewModels
                         teacherTableCollection = new TableCollection(teacher.ToString().Split(' ')[0]);
                     else
                         teacherTableCollection = new TableCollection("Незаполненные");
-                    // Фильтруем строки для текущего преподавателя
                     var teacherRows = TablesCollection[selectedtab].ExcelData
                         .Where(data => data.Teacher == teacher)
                         .ToList();
-
-                    // Добавляем отфильтрованные строки в новую TableCollection
                     foreach (ExcelModel techrow in teacherRows)
                         teacherTableCollection.ExcelData.Add(techrow);
-
-                    // Добавляем новую TableCollection в общую коллекцию
                     TablesCollection.Add(teacherTableCollection);
                 }
 
-
-                #endregion
             }
+        }
+        private RelayCommand _moveTeachersCommand;
+        public ICommand MoveTeachersCommand
+        {
+            get { return _moveTeachersCommand ?? (_moveTeachersCommand = new RelayCommand(MoveTeachers)); }
+        }
+        private void MoveTeachers(object parameter)
+        {
+            int ftableindex = FindTableIndex("П_ПИиИс");
+            int stableindex = FindTableIndex("Ф_ПИиИс");
+            if (ftableindex != -1 && stableindex != -1)
+            {
+                for (int i = 0; i < TablesCollection[stableindex].ExcelData.Count; i++)
+                {
+                    if (TablesCollection[stableindex].ExcelData[i].Teacher == "")
+                    {
+                        if (TablesCollection[ftableindex].ExcelData[i].Term == TablesCollection[stableindex].ExcelData[i].Term
+                       && TablesCollection[ftableindex].ExcelData[i].Group == TablesCollection[stableindex].ExcelData[i].Group
+                       && TablesCollection[ftableindex].ExcelData[i].Institute == TablesCollection[stableindex].ExcelData[i].Institute
+                       && TablesCollection[ftableindex].ExcelData[i].FormOfStudy == TablesCollection[stableindex].ExcelData[i].FormOfStudy &&
+                       TablesCollection[ftableindex].ExcelData[i].Teacher != "")
+                        {
+                            TablesCollection[stableindex].ExcelData[i].Teacher = TablesCollection[ftableindex].ExcelData[i].Teacher;
+
+                        }
+                    }
+                }
+
+                
+            }
+        }
+        private int FindTableIndex(string tableName)
+        {
+            // Преобразование имени таблицы, убирая знаки препинания и символ подчеркивания
+            string cleanedTableName = Regex.Replace(tableName, @"[^\w\s]|_", "");
+
+            // Преобразование к нижнему регистру
+            string cleanedTableNameLower = cleanedTableName.ToLower();
+
+            // Поиск таблицы в коллекции
+            for (int i = 0; i < TablesCollection.Count; i++)
+            {
+                string currentTableName = Regex.Replace(TablesCollection[i].Tablename, @"[^\w\s]|_", "").ToLower();
+                if (currentTableName == cleanedTableNameLower)
+                {
+                    return i; // Возвращаем индекс найденной таблицы
+                }
+            }
+
+            return -1; // Возвращаем -1, если таблица не найдена
         }
 
     }
