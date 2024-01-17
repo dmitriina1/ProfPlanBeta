@@ -69,8 +69,8 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <ComboBox IsEditable="True" 
-Text="{Binding Teacher}" 
-ItemsSource="{Binding Teachers}"/>
+                      Text="{Binding Teacher, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                      ItemsSource="{Binding Teachers}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
