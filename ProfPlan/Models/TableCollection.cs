@@ -38,7 +38,7 @@ namespace ProfPlan.Models
                 }
             }
         }
-
+        
         public TableCollection(string tablename, ObservableCollection<ExcelModel> col)
         {
             Tablename = tablename;

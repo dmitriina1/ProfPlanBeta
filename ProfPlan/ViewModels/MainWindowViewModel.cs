@@ -107,18 +107,20 @@ namespace ProfPlan.ViewModels
                                         break;
                                     }
                                 }
+                                var teachers = new ObservableCollection<string>();
 
                                 // Заполнение коллекции данных
                                 if (table.TableName.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) == -1 &&
                                     table.TableName.IndexOf("доп", StringComparison.OrdinalIgnoreCase) == -1)
                                 {
+                                    teachers = new ObservableCollection<string>(TeacherManager.GetTeachers().Select(t => $"{t.FirstName} {t.LastName[0]}.{t.MiddleName[0]}."));
                                     for (int i = rowIndex + 1; i < table.Rows.Count; i++)
                                     {
                                         try
                                         {
                                             if (haveTeacher && !string.IsNullOrWhiteSpace(table.Rows[i][0].ToString()))
                                             {
-                                                list.Add(new ExcelModel(Convert.ToInt32(table.Rows[i][0]),
+                                                list.Add(new ExcelModel(teachers, Convert.ToInt32(table.Rows[i][0]),
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
                                                                        table.Rows[i][3].ToString(),
@@ -151,7 +153,7 @@ namespace ProfPlan.ViewModels
                                             }
                                             else if (!haveTeacher)
                                             {
-                                                list.Add(new ExcelModel(Convert.ToInt32(table.Rows[i][0]),
+                                                list.Add(new ExcelModel(teachers,Convert.ToInt32(table.Rows[i][0]),
                                                                        "",
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
@@ -225,7 +227,25 @@ namespace ProfPlan.ViewModels
             TeacherListWindow teacherlist = new TeacherListWindow();
             teacherlist.Owner = techerswindow;
             teacherlist.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            teacherlist.Closed += TeacherListWindow_Closed;
             teacherlist.ShowDialog();
+        }
+        private void TeacherListWindow_Closed(object sender, EventArgs e)
+        {
+            foreach (TableCollection tab in TablesCollection)
+            {
+                for (int i = 0; i < tab.ExcelData.Count; i++)
+                {
+                    var teahers = TeacherManager.GetTeachers();
+                    ObservableCollection<string> NewTeachList = new ObservableCollection<string>();
+                    foreach (Teacher teacher in teahers)
+                    {
+                        NewTeachList.Add($"{teacher.LastName} {teacher.FirstName[0]}.{teacher.MiddleName[0]}.");
+                    }
+                    tab.ExcelData[i].Teachers = NewTeachList;
+                }
+            }
+
         }
 
         private RelayCommand _generateTeachersLists;

@@ -64,8 +64,16 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>-->
-                                <DataGridTextColumn Header="Преподаватель" Binding="{Binding Teacher}"/>
-
+                                <!--<DataGridTextColumn Header="Преподаватель" Binding="{Binding Teacher}"/>-->
+                                <DataGridTemplateColumn Header="Преподаватель">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox IsEditable="True" 
+Text="{Binding Teacher}" 
+ItemsSource="{Binding Teachers}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Дисциплина" Binding="{Binding Discipline}"/>
                                 <DataGridTextColumn Header="Семестр" Binding="{Binding Term}"/>
                                 <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>

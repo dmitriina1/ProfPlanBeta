@@ -1,13 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProfPlan.ViewModels.Base;
 
 namespace ProfPlan.Models
 {
-    public class ExcelModel
+    public class ExcelModel: ViewModel
     {
+        private ObservableCollection<string> teachers = new ObservableCollection<string>();
+
+        public ObservableCollection<string> Teachers
+        {
+            get { return teachers; }
+            set
+            {
+                if (teachers != value)
+                {
+                    teachers = value;
+                    OnPropertyChanged(nameof(Teachers));
+                }
+            }
+        }
         public int Number { get; set; }
         public string Teacher { get; set; }
         public string Discipline { get; set; }
@@ -37,8 +54,9 @@ namespace ProfPlan.Models
         public string Total { get; set; }
         public string Budget { get; set; }
         public string Commercial { get; set; }
-        public ExcelModel(int number, string teacher, string discipline, string term, string group, string institute, string groupCount, string subGroup, string formOfStudy, string studentsCount, string commercicalStudentsCount, string weeks, string reportingForm, string lectures, string practices, string laboratory, string consultations, string tests, string exams, string courseWorks, string courseProjects, string gEKAndGAK, string diploma, string rGZ, string reviewDiploma, string other, string total, string budget, string commercial)
+        public ExcelModel(ObservableCollection<string> teachlist, int number, string teacher, string discipline, string term, string group, string institute, string groupCount, string subGroup, string formOfStudy, string studentsCount, string commercicalStudentsCount, string weeks, string reportingForm, string lectures, string practices, string laboratory, string consultations, string tests, string exams, string courseWorks, string courseProjects, string gEKAndGAK, string diploma, string rGZ, string reviewDiploma, string other, string total, string budget, string commercial)
         {
+            Teachers = teachlist;
             Number = number;
             Teacher = teacher;
             Discipline = discipline;
