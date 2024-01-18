@@ -41,31 +41,29 @@ namespace ProfPlan.Models
         }
         public void SubscribeToExcelDataChanges()
         {
-            // Отписываемся от предыдущих событий, если они были
             foreach (var excelModel in _excelData)
             {
                 excelModel.PropertyChanged -= ExcelModel_PropertyChanged;
             }
 
-            // Подписываемся на события изменения каждого элемента коллекции
             foreach (var excelModel in _excelData)
             {
                 excelModel.PropertyChanged += ExcelModel_PropertyChanged;
             }
 
-            // Вызываем обновление TotalHours при изменении коллекции
-            UpdateTotalHours();
+            UpdateHours();
         }
         public void ExcelModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Обработка изменения свойства в ExcelModel
-            UpdateTotalHours();
+            UpdateHours();
         }
-        private void UpdateTotalHours()
+        private void UpdateHours()
         {
-            // Обновление TotalHours на основе значений свойства Total каждого элемента коллекции
-            // Пример: суммирование Total каждого элемента
             TotalHours = _excelData.Where(x => x.Total != null).Sum(x => Convert.ToDouble(x.Total));
+            AutumnHours = _excelData.Where(x => x.Term != null && x.Term.Equals("нечет", StringComparison.OrdinalIgnoreCase))
+                                .Sum(x => Convert.ToDouble(x.Total));
+            SpringHours = _excelData.Where(x => x.Term != null && x.Term.Equals("чет", StringComparison.OrdinalIgnoreCase))
+                                .Sum(x => Convert.ToDouble(x.Total));
         }
         private double _totalHours;
         public double TotalHours
@@ -80,8 +78,8 @@ namespace ProfPlan.Models
                 }
             }
         }
-        private string _autumnHours;
-        public string AutumnHours
+        private double _autumnHours;
+        public double AutumnHours
         {
             get { return _autumnHours; }
             set
@@ -93,9 +91,9 @@ namespace ProfPlan.Models
                 }
             }
         }
-        private string _springHours;
+        private double _springHours;
 
-        public string SpringHours
+        public double SpringHours
         {
             get { return _springHours; }
             set

@@ -46,7 +46,7 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <!--<DataTemplate.Triggers>
+                    <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Tablename}" Value="Итого">
                                 <Setter Property="Content">
                                     <Setter.Value>
@@ -64,7 +64,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </DataTrigger>
-                        </DataTemplate.Triggers>-->
+                        </DataTemplate.Triggers>
                     <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№" Binding="{Binding Number}" IsReadOnly="True"/>
@@ -112,7 +112,7 @@
         <StatusBar Grid.Row="2">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid>
+                    <Grid HorizontalAlignment="Right">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
@@ -124,8 +124,10 @@
             </StatusBar.ItemsPanel>
             <TextBlock>
                 <TextBlock.Text>
-                    <MultiBinding StringFormat="TotalHours: {0}">
+                    <MultiBinding StringFormat="Всего: {0} ({1}/{2})">
                         <Binding Path="SelectedItem.TotalHours" ElementName="MainTabControl"/>
+                        <Binding Path="SelectedItem.AutumnHours" ElementName="MainTabControl"/>
+                        <Binding Path="SelectedItem.SpringHours" ElementName="MainTabControl"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>

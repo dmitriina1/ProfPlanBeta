@@ -86,7 +86,7 @@ namespace ProfPlan.ViewModels
                                 int rowIndex = -1;
                                 bool haveTeacher = false;
 
-                                // Определение индекса строки с заголовком "Дисциплина"
+                                //Определение индекса строки с заголовком "Дисциплина"
                                 for (int i = 0; i < table.Rows.Count; i++)
                                 {
                                     for (int j = 0; j < table.Columns.Count - 1; j++)
@@ -98,6 +98,27 @@ namespace ProfPlan.ViewModels
                                         }
                                     }
                                 }
+                                //bool exitOuterLoop = false;
+
+                                //for (int i = 0; i < table.Rows.Count; i++)
+                                //{
+                                //    for (int j = 0; j < table.Columns.Count - 1; j++)
+                                //    {
+                                //        if (table.Rows[i][j].ToString().Trim() == "Дисциплина")
+                                //        {
+                                //                rowIndex = i;
+
+                                //                exitOuterLoop = true;
+                                //                break;
+                                //        }
+                                //    }
+
+                                //    if (exitOuterLoop)
+                                //    {
+                                //        // Выход из внешнего цикла
+                                //        break;
+                                //    }
+                                //}
 
                                 // Проверка наличия столбца "Преподаватель"
                                 for (int j = 0; j < table.Columns.Count - 1; j++)
@@ -282,7 +303,7 @@ namespace ProfPlan.ViewModels
                                     .Select(data => data.Teacher)
                                     .Distinct()
                                     .ToList();
-
+                
                 foreach (var teacher in uniqueTeachers)
                 {
                     var teacherTableCollection = new TableCollection() { };
@@ -301,8 +322,11 @@ namespace ProfPlan.ViewModels
                     }
                     teacherTableCollection.SubscribeToExcelDataChanges();
                     TablesCollection.Add(teacherTableCollection);
+                    //Реализация листа Итого:
                 }
                 
+
+
             }
         }
         private RelayCommand _moveTeachersCommand;
