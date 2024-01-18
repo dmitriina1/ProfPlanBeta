@@ -10,7 +10,7 @@ namespace ProfPlan.Models
     {
         public static T? ToNullable<T>(this object value) where T : struct
         {
-            if (value == DBNull.Value)
+            if (value == DBNull.Value || value == null)
             {
                 return null;
             }
