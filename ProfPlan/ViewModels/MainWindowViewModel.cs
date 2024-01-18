@@ -121,76 +121,78 @@ namespace ProfPlan.ViewModels
                                         {
                                             if (haveTeacher && !string.IsNullOrWhiteSpace(table.Rows[i][0].ToString()))
                                             {
-                                                list.Add(new ExcelModel(teachers, Number,
+                                                list.Add(new ExcelModel(teachers,
+                                                                       Number,
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
                                                                        table.Rows[i][3].ToString(),
                                                                        table.Rows[i][4].ToString(),
                                                                        table.Rows[i][5].ToString(),
-                                                                       table.Rows[i][6].ToString(),
+                                                                       table.Rows[i][6].ToNullable<int>(),
                                                                        table.Rows[i][7].ToString(),
                                                                        table.Rows[i][8].ToString(),
-                                                                       table.Rows[i][9].ToString(),
-                                                                       table.Rows[i][10].ToString(),
-                                                                       table.Rows[i][11].ToString(),
+                                                                       table.Rows[i][9].ToNullable<int>(),
+                                                                       table.Rows[i][10].ToNullable<int>(),
+                                                                       table.Rows[i][11].ToNullable<int>(),
                                                                        table.Rows[i][12].ToString(),
-                                                                       table.Rows[i][13].ToString(),
-                                                                       table.Rows[i][14].ToString(),
-                                                                       table.Rows[i][15].ToString(),
-                                                                       table.Rows[i][16].ToString(),
-                                                                       table.Rows[i][17].ToString(),
-                                                                       table.Rows[i][18].ToString(),
-                                                                       table.Rows[i][19].ToString(),
-                                                                       table.Rows[i][20].ToString(),
-                                                                       table.Rows[i][21].ToString(),
-                                                                       table.Rows[i][22].ToString(),
-                                                                       table.Rows[i][23].ToString(),
-                                                                       table.Rows[i][24].ToString(),
-                                                                       table.Rows[i][25].ToString(),
-                                                                       table.Rows[i][26].ToString(),
-                                                                       table.Rows[i][27].ToString(),
-                                                                       table.Rows[i][28].ToString()));
+                                                                       table.Rows[i][13].ToNullable<int>(),
+                                                                       table.Rows[i][14].ToNullable<double>(),
+                                                                       table.Rows[i][15].ToNullable<double>(),
+                                                                       table.Rows[i][16].ToNullable<double>(),
+                                                                       table.Rows[i][17].ToNullable<double>(),
+                                                                       table.Rows[i][18].ToNullable<double>(),
+                                                                       table.Rows[i][19].ToNullable<double>(),
+                                                                       table.Rows[i][20].ToNullable<double>(),
+                                                                       table.Rows[i][21].ToNullable<double>(),
+                                                                       table.Rows[i][22].ToNullable<double>(),
+                                                                       table.Rows[i][23].ToNullable<double>(),
+                                                                       table.Rows[i][24].ToNullable<double>(),
+                                                                       table.Rows[i][25].ToNullable<double>(),
+                                                                       table.Rows[i][25].ToNullable<double>(),
+                                                                       table.Rows[i][27].ToNullable<double>(),
+                                                                       table.Rows[i][28].ToNullable<double>()));
                                                 Number++;
                                             }
                                             else if (!haveTeacher)
                                             {
-                                                list.Add(new ExcelModel(teachers, Number,
+                                                list.Add(new ExcelModel(teachers, 
+                                                                       Number,
                                                                        "",
                                                                        table.Rows[i][1].ToString(),
                                                                        table.Rows[i][2].ToString(),
                                                                        table.Rows[i][3].ToString(),
                                                                        table.Rows[i][4].ToString(),
-                                                                       table.Rows[i][5].ToString(),
+                                                                       table.Rows[i][5].ToNullable<int>(),
                                                                        table.Rows[i][6].ToString(),
                                                                        table.Rows[i][7].ToString(),
-                                                                       table.Rows[i][8].ToString(),
-                                                                       table.Rows[i][9].ToString(),
-                                                                       table.Rows[i][10].ToString(),
+                                                                       table.Rows[i][8].ToNullable<int>(),
+                                                                       table.Rows[i][9].ToNullable<int>(),
+                                                                       table.Rows[i][10].ToNullable<int>(),
                                                                        table.Rows[i][11].ToString(),
-                                                                       table.Rows[i][12].ToString(),
-                                                                       table.Rows[i][13].ToString(),
-                                                                       table.Rows[i][14].ToString(),
-                                                                       table.Rows[i][15].ToString(),
-                                                                       table.Rows[i][16].ToString(),
-                                                                       table.Rows[i][17].ToString(),
-                                                                       table.Rows[i][18].ToString(),
-                                                                       table.Rows[i][19].ToString(),
-                                                                       table.Rows[i][20].ToString(),
-                                                                       table.Rows[i][21].ToString(),
-                                                                       table.Rows[i][22].ToString(),
-                                                                       table.Rows[i][23].ToString(),
-                                                                       table.Rows[i][24].ToString(),
-                                                                       table.Rows[i][25].ToString(),
-                                                                       table.Rows[i][26].ToString(),
-                                                                       table.Rows[i][27].ToString()));
+                                                                       table.Rows[i][12].ToNullable<double>(),
+                                                                       table.Rows[i][13].ToNullable<double>(),
+                                                                       table.Rows[i][14].ToNullable<double>(),
+                                                                       table.Rows[i][15].ToNullable<double>(),
+                                                                       table.Rows[i][16].ToNullable<double>(),
+                                                                       table.Rows[i][17].ToNullable<double>(),
+                                                                       table.Rows[i][18].ToNullable<double>(),
+                                                                       table.Rows[i][19].ToNullable<double>(),
+                                                                       table.Rows[i][20].ToNullable<double>(),
+                                                                       table.Rows[i][21].ToNullable<double>(),
+                                                                       table.Rows[i][22].ToNullable<double>(),
+                                                                       table.Rows[i][23].ToNullable<double>(),
+                                                                       table.Rows[i][24].ToNullable<double>(),
+                                                                       table.Rows[i][25].ToNullable<double>(),
+                                                                       table.Rows[i][26].ToNullable<double>(),
+                                                                       table.Rows[i][27].ToNullable<double>()));
                                                 Number++;
                                             }
                                         }
                                         catch (Exception ex)
                                         {
-                                            MessageBox.Show($"Error adding data: {ex.Message}");
-                                        }
+                                        MessageBox.Show($"Error adding data: {ex.Message}");
                                     }
+                                }
                                 }
                                 else if (table.TableName.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) != -1)
                                 {
@@ -253,6 +255,8 @@ namespace ProfPlan.ViewModels
 
         }
 
+        
+
         private RelayCommand _generateTeachersLists;
         public ICommand GenerateTeachersLists
         {
@@ -293,7 +297,7 @@ namespace ProfPlan.ViewModels
                         teacherTableCollection.ExcelData.Add(techrow);
                     TablesCollection.Add(teacherTableCollection);
                 }
-
+                
             }
         }
         private RelayCommand _moveTeachersCommand;
@@ -328,24 +332,23 @@ namespace ProfPlan.ViewModels
         }
         private int FindTableIndex(string tableName)
         {
-            // Преобразование имени таблицы, убирая знаки препинания и символ подчеркивания
             string cleanedTableName = Regex.Replace(tableName, @"[^\w\s]|_", "");
 
-            // Преобразование к нижнему регистру
             string cleanedTableNameLower = cleanedTableName.ToLower();
 
-            // Поиск таблицы в коллекции
             for (int i = 0; i < TablesCollection.Count; i++)
             {
                 string currentTableName = Regex.Replace(TablesCollection[i].Tablename, @"[^\w\s]|_", "").ToLower();
                 if (currentTableName == cleanedTableNameLower)
                 {
-                    return i; // Возвращаем индекс найденной таблицы
+                    return i; 
                 }
             }
 
-            return -1; // Возвращаем -1, если таблица не найдена
+            return -1; 
         }
+
+
 
     }
 }

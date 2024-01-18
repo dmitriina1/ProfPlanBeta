@@ -31,30 +31,38 @@ namespace ProfPlan.Models
         public string Term { get; set; }
         public string Group { get; set; }
         public string Institute { get; set; }
-        public string GroupCount { get; set; }
+        public int? GroupCount { get; set; }
         public string SubGroup { get; set; }
         public string FormOfStudy { get; set; }
-        public string StudentsCount { get; set; }
-        public string CommercicalStudentsCount { get; set; }
-        public string Weeks { get; set; }
+        public int? StudentsCount { get; set; }
+        public int? CommercicalStudentsCount { get; set; }
+        public int? Weeks { get; set; }
         public string ReportingForm { get; set; }
-        public string Lectures { get; set; }
-        public string Practices { get; set; }
-        public string Laboratory { get; set; }
-        public string Consultations { get; set; }
-        public string Tests { get; set; }
-        public string Exams { get; set; }
-        public string CourseWorks { get; set; }
-        public string CourseProjects { get; set; }
-        public string GEKAndGAK { get; set; }
-        public string Diploma { get; set; }
-        public string RGZ { get; set; }
-        public string ReviewDiploma { get; set; }
-        public string Other { get; set; }
-        public string Total { get; set; }
-        public string Budget { get; set; }
-        public string Commercial { get; set; }
-        public ExcelModel(ObservableCollection<string> teachlist, int number, string teacher, string discipline, string term, string group, string institute, string groupCount, string subGroup, string formOfStudy, string studentsCount, string commercicalStudentsCount, string weeks, string reportingForm, string lectures, string practices, string laboratory, string consultations, string tests, string exams, string courseWorks, string courseProjects, string gEKAndGAK, string diploma, string rGZ, string reviewDiploma, string other, string total, string budget, string commercial)
+        public double? Lectures { get; set; }
+        public double? Practices { get; set; }
+        public double? Laboratory { get; set; }
+        public double? Consultations { get; set; }
+        public double? Tests { get; set; }
+        public double? Exams { get; set; }
+        public double? CourseWorks { get; set; }
+        public double? CourseProjects { get; set; }
+        public double? GEKAndGAK { get; set; }
+        public double? Diploma { get; set; }
+        public double? RGZ { get; set; }
+        public double? ReviewDiploma { get; set; }
+        public double? Other { get; set; }
+        public double? Total { get; set; }
+        public double? Budget { get; set; }
+        public double? Commercial { get; set; }
+        public ExcelModel(ObservableCollection<string> teachlist, 
+            int number, string teacher, string discipline, string term, 
+            string group, string institute, int? groupCount, string subGroup, 
+            string formOfStudy, int? studentsCount, int? commercicalStudentsCount, 
+            int? weeks, string reportingForm, double? lectures, double? practices, 
+            double? laboratory, double? consultations, double? tests, double? exams, 
+            double? courseWorks, double? courseProjects, double? gEKAndGAK, double? diploma, 
+            double? rGZ, double? reviewDiploma, double? other, double? total, double? budget,
+            double? commercial)
         {
             Teachers = teachlist;
             Number = number;

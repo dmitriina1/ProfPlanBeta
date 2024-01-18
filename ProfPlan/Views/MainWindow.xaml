@@ -109,8 +109,26 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        <StatusBar Grid.Row="2" ItemsSource="{Binding}">
-            <TextBlock Text="{Binding }"/>
-        </StatusBar>
+        <!--<StatusBar Grid.Row="2">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="TotalHours: {0}">
+                        <Binding Path="SelectedItem.TotalHours" ElementName="MainTabControl"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StatusBar>-->
     </Grid>
 </Window>

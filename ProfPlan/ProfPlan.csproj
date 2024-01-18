@@ -65,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="Commads\RelayCommand.cs" />
     <Compile Include="Models\ExcelModelTotal.cs" />
+    <Compile Include="Models\ObjectExtensions.cs" />
     <Compile Include="ViewModels\ExcelModel.cs" />
     <Compile Include="Models\TableCollection.cs" />
     <Compile Include="Models\Teacher.cs" />
