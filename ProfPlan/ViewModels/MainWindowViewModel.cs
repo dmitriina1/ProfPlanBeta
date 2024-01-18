@@ -148,7 +148,7 @@ namespace ProfPlan.ViewModels
                                                                        table.Rows[i][23].ToNullable<double>(),
                                                                        table.Rows[i][24].ToNullable<double>(),
                                                                        table.Rows[i][25].ToNullable<double>(),
-                                                                       table.Rows[i][25].ToNullable<double>(),
+                                                                       table.Rows[i][26].ToNullable<double>(),
                                                                        table.Rows[i][27].ToNullable<double>(),
                                                                        table.Rows[i][28].ToNullable<double>()));
                                                 Number++;
@@ -294,7 +294,12 @@ namespace ProfPlan.ViewModels
                         .Where(data => data.Teacher == teacher)
                         .ToList();
                     foreach (ExcelModel techrow in teacherRows)
+                    {
+                        techrow.PropertyChanged += teacherTableCollection.ExcelModel_PropertyChanged;
                         teacherTableCollection.ExcelData.Add(techrow);
+
+                    }
+                    teacherTableCollection.SubscribeToExcelDataChanges();
                     TablesCollection.Add(teacherTableCollection);
                 }
                 

@@ -39,7 +39,7 @@ namespace ProfPlan.Models
                 }
             }
         }
-        private void SubscribeToExcelDataChanges()
+        public void SubscribeToExcelDataChanges()
         {
             // Отписываемся от предыдущих событий, если они были
             foreach (var excelModel in _excelData)
@@ -56,7 +56,7 @@ namespace ProfPlan.Models
             // Вызываем обновление TotalHours при изменении коллекции
             UpdateTotalHours();
         }
-        private void ExcelModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public void ExcelModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Обработка изменения свойства в ExcelModel
             UpdateTotalHours();

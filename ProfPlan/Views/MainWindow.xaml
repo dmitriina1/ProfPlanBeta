@@ -109,7 +109,7 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        <!--<StatusBar Grid.Row="2">
+        <StatusBar Grid.Row="2">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -129,6 +129,6 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-        </StatusBar>-->
+        </StatusBar>
     </Grid>
 </Window>
