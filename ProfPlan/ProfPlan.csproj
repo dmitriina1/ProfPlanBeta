@@ -77,6 +77,7 @@
     <Compile Include="Views\AddTeacherWindow.xaml.cs">
       <DependentUpon>AddTeacherWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MyContentTemplateSelector.cs" />
     <Compile Include="Views\TeacherListWindow.xaml.cs">
       <DependentUpon>TeacherListWindow.xaml</DependentUpon>
     </Compile>

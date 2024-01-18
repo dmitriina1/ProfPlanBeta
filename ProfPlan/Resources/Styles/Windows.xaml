@@ -1,7 +1,79 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:ProfPlan">
-<!--Стиль для основного TabControl-->
+
+    <DataTemplate x:Key="HeaderTemplate">
+        <TextBlock Text="{Binding Tablename}" MinWidth="50" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="FirstTemplate" >
+        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Number}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Преподаватель">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox IsEditable="True" 
+Text="{Binding Teacher, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+ItemsSource="{Binding Teachers}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Дисциплина" Binding="{Binding Discipline}"/>
+                <DataGridTextColumn Header="Семестр" Binding="{Binding Term}"/>
+                <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>
+                <DataGridTextColumn Header="Институт" Binding="{Binding Institute}"/>
+                <DataGridTextColumn Header="Число групп" Binding="{Binding GroupCount}"/>
+                <DataGridTextColumn Header="Подгруппа" Binding="{Binding SubGroup}"/>
+                <DataGridTextColumn Header="Форма обучения" Binding="{Binding FormOfStudy}"/>
+                <DataGridTextColumn Header="Число студентов" Binding="{Binding StudentsCount}"/>
+                <DataGridTextColumn Header="Из них комерч." Binding="{Binding CommercicalStudentsCount}"/>
+                <DataGridTextColumn Header="Недель" Binding="{Binding Weeks}"/>
+                <DataGridTextColumn Header="Форма отчетности" Binding="{Binding ReportingForm}"/>
+                <DataGridTextColumn Header="Лекции" Binding="{Binding Lectures}"/>
+                <DataGridTextColumn Header="Практики" Binding="{Binding Practices}"/>
+                <DataGridTextColumn Header="Лабораторные" Binding="{Binding Laboratory}"/>
+                <DataGridTextColumn Header="Консультации" Binding="{Binding Consultations}"/>
+                <DataGridTextColumn Header="Зачеты" Binding="{Binding Tests}"/>
+                <DataGridTextColumn Header="Экзамены" Binding="{Binding Exams}"/>
+                <DataGridTextColumn Header="Курсовые работы" Binding="{Binding CourseWorks}"/>
+                <DataGridTextColumn Header="Курсовые проекты" Binding="{Binding CourseProjects}"/>
+                <DataGridTextColumn Header="ГЭК+Прием ГЭК, прием ГАК" Binding="{Binding GEKAndGAK}"/>
+                <DataGridTextColumn Header="Диплом" Binding="{Binding Diploma}"/>
+                <DataGridTextColumn Header="РГЗ_Реф, нормоконтроль" Binding="{Binding RGZ}"/>
+                <DataGridTextColumn Header="ПрактикаРабота, реценз диплом" Binding="{Binding ReviewDiploma}"/>
+                <DataGridTextColumn Header="Прочее" Binding="{Binding Other}"/>
+                <DataGridTextColumn Header="Всего" Binding="{Binding Total}"/>
+                <DataGridTextColumn Header="Бюджетные" Binding="{Binding Budget}"/>
+                <DataGridTextColumn Header="Коммерческие" Binding="{Binding Commercial}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DataTemplate>
+
+    <DataTemplate  x:Key="SecondTemplate" >
+        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding Teacher}" />
+                <DataGridTextColumn Header="Ставка" Binding="{Binding Bet}" />
+                <DataGridTextColumn Header="Ставка (%)" Binding="{Binding BetPercent}" />
+                <DataGridTextColumn Header="Всего" Binding="{Binding TotalHours}" />
+                <DataGridTextColumn Header="Осень" Binding="{Binding AutumnHours}" />
+                <DataGridTextColumn Header="Весна" Binding="{Binding SpringHours}" />
+                <DataGridTextColumn Header="Разница" Binding="{Binding Difference}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DataTemplate>
+
+    <Style TargetType="TabItem">
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Tablename}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--Стиль для основного TabControl-->
             <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF"/>
             <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#000000"/>
     <Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
