@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProfPlan.Models
 {
-    public class ExcelModelTotal: ExcelData
+    public class ExcelTotal: ExcelData
     {
         public string Teacher { get; set; }
         public int? Bet { get; set; }
@@ -15,8 +15,8 @@ namespace ProfPlan.Models
         public double? AutumnHours { get; set; }
         public double? SpringHours { get; set; }
         public double? Difference { get; set; }
-        public ExcelModelTotal() { }
-        public ExcelModelTotal(string techer, int? bet, double? betpercent, double? total, double? autumnhours, double? springHours, double? difference)
+        public ExcelTotal() { }
+        public ExcelTotal(string techer, int? bet, double? betpercent, double? total, double? autumnhours, double? springHours, double? difference)
         {
             Teacher = techer;
             Bet = bet;

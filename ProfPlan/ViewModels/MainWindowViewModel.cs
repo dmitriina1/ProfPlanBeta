@@ -232,7 +232,7 @@ namespace ProfPlan.ViewModels
                                     for (int i = 1; i < table.Rows.Count; i++)
                                         {
                                         if (!string.IsNullOrEmpty(table.Rows[i][0].ToString()))
-                                            list.Add(new ExcelModelTotal(
+                                            list.Add(new ExcelTotal(
 
                                                 table.Rows[i][0].ToString(),
                                                 table.Rows[i][1].ToNullable<int>(),
