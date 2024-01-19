@@ -12,9 +12,9 @@ namespace ProfPlan.Models
     public class TableCollection: ViewModel, INotifyPropertyChanged
     {
         private string _tablename = null;
-        private ObservableCollection<ExcelModel> _excelData = new ObservableCollection<ExcelModel>();
+        private ObservableCollection<ExcelData> _excelData = new ObservableCollection<ExcelData>();
 
-        public ObservableCollection<ExcelModel> ExcelData
+        public ObservableCollection<ExcelData> ExcelData
         {
             get { return _excelData; }
             set
@@ -59,10 +59,10 @@ namespace ProfPlan.Models
         }
         private void UpdateHours()
         {
-            TotalHours = _excelData.Where(x => x.Total != null).Sum(x => Convert.ToDouble(x.Total));
-            AutumnHours = _excelData.Where(x => x.Term != null && x.Term.Equals("нечет", StringComparison.OrdinalIgnoreCase))
+            TotalHours = _excelData.OfType<ExcelModel>().Where(x => x.Total != null).Sum(x => Convert.ToDouble(x.Total));
+            AutumnHours = _excelData.OfType<ExcelModel>().Where(x => x.Term != null && x.Term.Equals("нечет", StringComparison.OrdinalIgnoreCase))
                                 .Sum(x => Convert.ToDouble(x.Total));
-            SpringHours = _excelData.Where(x => x.Term != null && x.Term.Equals("чет", StringComparison.OrdinalIgnoreCase))
+            SpringHours = _excelData.OfType<ExcelModel>().Where(x => x.Term != null && x.Term.Equals("чет", StringComparison.OrdinalIgnoreCase))
                                 .Sum(x => Convert.ToDouble(x.Total));
         }
         private double _totalHours;
@@ -106,7 +106,7 @@ namespace ProfPlan.Models
             }
         }
 
-        public TableCollection(string tablename, ObservableCollection<ExcelModel> col)
+        public TableCollection(string tablename, ObservableCollection<ExcelData> col)
         {
             Tablename = tablename;
             ExcelData = col;

@@ -64,6 +64,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commads\RelayCommand.cs" />
+    <Compile Include="Models\ExcelData.cs" />
     <Compile Include="Models\ExcelModelTotal.cs" />
     <Compile Include="Models\ObjectExtensions.cs" />
     <Compile Include="ViewModels\ExcelModel.cs" />

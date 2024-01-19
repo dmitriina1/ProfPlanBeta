@@ -7,7 +7,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="FirstTemplate" >
-        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Number}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="Преподаватель">
@@ -51,7 +51,7 @@ ItemsSource="{Binding Teachers}"/>
     </DataTemplate>
 
     <DataTemplate  x:Key="SecondTemplate" >
-        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding Teacher}" />
                 <DataGridTextColumn Header="Ставка" Binding="{Binding Bet}" />

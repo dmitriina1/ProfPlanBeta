@@ -9,7 +9,7 @@ using ProfPlan.ViewModels.Base;
 
 namespace ProfPlan.Models
 {
-    public class ExcelModel: ViewModel
+    public class ExcelModel: ExcelData
     {
         private ObservableCollection<string> teachers = new ObservableCollection<string>();
 

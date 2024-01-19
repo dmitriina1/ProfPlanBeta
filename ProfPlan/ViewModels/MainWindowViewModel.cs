@@ -60,7 +60,7 @@ namespace ProfPlan.ViewModels
 
         private void LoadData(object parameter)
         {
-            try
+            //try
             {
                 string tabname = "";
                 var openFileDialog = new OpenFileDialog() { Filter = "Excel Files|*.xls;*.xlsx" };
@@ -82,7 +82,7 @@ namespace ProfPlan.ViewModels
                             {
                                 Number = 1;
                                 tabname = table.TableName;
-                                ObservableCollection<ExcelModel> list = new ObservableCollection<ExcelModel>();
+                                ObservableCollection<ExcelData> list = new ObservableCollection<ExcelData>();
                                 int rowIndex = -1;
                                 bool haveTeacher = false;
 
@@ -98,27 +98,36 @@ namespace ProfPlan.ViewModels
                                         }
                                     }
                                 }
-                                //bool exitOuterLoop = false;
+                                bool exitOuterLoop = false;
+                                int endstring = -1;
+                                for (int i = 0; i < table.Rows.Count; i++)
+                                {
+                                    for (int j = 0; j < table.Columns.Count - 1; j++)
+                                    {
+                                        if (table.Rows[i][j].ToString().Trim() == "Дисциплина")
+                                        {
+                                            rowIndex = i;
 
-                                //for (int i = 0; i < table.Rows.Count; i++)
-                                //{
-                                //    for (int j = 0; j < table.Columns.Count - 1; j++)
-                                //    {
-                                //        if (table.Rows[i][j].ToString().Trim() == "Дисциплина")
-                                //        {
-                                //                rowIndex = i;
+                                            exitOuterLoop = true;
+                                            break;
+                                        }
+                                    }
 
-                                //                exitOuterLoop = true;
-                                //                break;
-                                //        }
-                                //    }
-
-                                //    if (exitOuterLoop)
-                                //    {
-                                //        // Выход из внешнего цикла
-                                //        break;
-                                //    }
-                                //}
+                                    if (exitOuterLoop)
+                                    {
+                                        // Выход из внешнего цикла
+                                        break;
+                                    }
+                                }
+                                if (rowIndex != -1)
+                                    for (int i = rowIndex; i < table.Rows.Count; i++)
+                                    {
+                                        if (table.Rows[i][0].ToString() == "")
+                                        {
+                                            endstring = i;
+                                            break;
+                                        }
+                                    }
 
                                 // Проверка наличия столбца "Преподаватель"
                                 for (int j = 0; j < table.Columns.Count - 1; j++)
@@ -135,8 +144,10 @@ namespace ProfPlan.ViewModels
                                 if (table.TableName.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) == -1 &&
                                     table.TableName.IndexOf("доп", StringComparison.OrdinalIgnoreCase) == -1)
                                 {
+
                                     teachers = new ObservableCollection<string>(TeacherManager.GetTeachers().Select(t => $"{t.FirstName} {t.LastName[0]}.{t.MiddleName[0]}."));
-                                    for (int i = rowIndex + 1; i < table.Rows.Count; i++)
+                                    if (endstring == -1) { endstring = table.Rows.Count; }
+                                    for (int i = rowIndex + 1; i < endstring; i++)
                                     {
                                         try
                                         {
@@ -176,7 +187,7 @@ namespace ProfPlan.ViewModels
                                             }
                                             else if (!haveTeacher)
                                             {
-                                                list.Add(new ExcelModel(teachers, 
+                                                list.Add(new ExcelModel(teachers,
                                                                        Number,
                                                                        "",
                                                                        table.Rows[i][1].ToString(),
@@ -211,12 +222,36 @@ namespace ProfPlan.ViewModels
                                         }
                                         catch (Exception ex)
                                         {
-                                        MessageBox.Show($"Error adding data: {ex.Message}");
+                                            MessageBox.Show($"Error adding data: {ex.Message}");
+                                        }
                                     }
-                                }
                                 }
                                 else if (table.TableName.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) != -1)
                                 {
+                                    
+                                    for (int i = 1; i < table.Rows.Count; i++)
+                                        {
+                                        if (!string.IsNullOrEmpty(table.Rows[i][0].ToString()))
+                                            list.Add(new ExcelModelTotal(
+
+                                                table.Rows[i][0].ToString(),
+                                                table.Rows[i][1].ToNullable<int>(),
+                                                null,
+                                                table.Rows[i][2].ToNullable<double>(),
+                                                table.Rows[i][3].ToNullable<double>(),
+                                                table.Rows[i][4].ToNullable<double>(),
+                                                Math.Round(Convert.ToDouble(table.Rows[i][5].ToNullable<double>()),2)
+                                                )); 
+                                        
+                                            
+                                        
+                                    }
+
+
+
+
+
+
 
                                 }
 
@@ -233,10 +268,10 @@ namespace ProfPlan.ViewModels
 
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding data: {ex.Message}");
-            }
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Error adding data: {ex.Message}");
+            //}
         }
         public ICommand ShowTeachersListCommand { get; set; }
         public MainWindowViewModel()
@@ -262,21 +297,26 @@ namespace ProfPlan.ViewModels
         {
             foreach (TableCollection tab in TablesCollection)
             {
-                for (int i = 0; i < tab.ExcelData.Count; i++)
+                foreach (ExcelData excelData in tab.ExcelData)
                 {
-                    var teahers = TeacherManager.GetTeachers();
-                    ObservableCollection<string> NewTeachList = new ObservableCollection<string>();
-                    foreach (Teacher teacher in teahers)
+                    if (excelData is ExcelModel excelModel)
                     {
-                        NewTeachList.Add($"{teacher.LastName} {teacher.FirstName[0]}.{teacher.MiddleName[0]}.");
+                        var teachers = TeacherManager.GetTeachers();
+                        ObservableCollection<string> newTeachList = new ObservableCollection<string>();
+
+                        foreach (Teacher teacher in teachers)
+                        {
+                            newTeachList.Add($"{teacher.LastName} {teacher.FirstName[0]}.{teacher.MiddleName[0]}.");
+                        }
+
+                        excelModel.Teachers = newTeachList;
                     }
-                    tab.ExcelData[i].Teachers = NewTeachList;
                 }
             }
 
         }
 
-        
+
 
         private RelayCommand _generateTeachersLists;
         public ICommand GenerateTeachersLists
@@ -300,10 +340,11 @@ namespace ProfPlan.ViewModels
                 // Метод для создания TableCollection по преподавателям
 
                 var uniqueTeachers = TablesCollection[selectedtab].ExcelData
-                                    .Select(data => data.Teacher)
-                                    .Distinct()
-                                    .ToList();
-                
+    .Where(data => data is ExcelModel) // Фильтрация по типу ExcelModel
+    .Select(data => ((ExcelModel)data).Teacher) // Приведение к ExcelModel и выбор Teacher
+    .Distinct()
+    .ToList();
+
                 foreach (var teacher in uniqueTeachers)
                 {
                     var teacherTableCollection = new TableCollection() { };
@@ -312,8 +353,8 @@ namespace ProfPlan.ViewModels
                     else
                         teacherTableCollection = new TableCollection("Незаполненные");
                     var teacherRows = TablesCollection[selectedtab].ExcelData
-                        .Where(data => data.Teacher == teacher)
-                        .ToList();
+    .Where(data => data is ExcelModel && ((ExcelModel)data).Teacher == teacher)
+    .ToList();
                     foreach (ExcelModel techrow in teacherRows)
                     {
                         techrow.PropertyChanged += teacherTableCollection.ExcelModel_PropertyChanged;
@@ -324,7 +365,7 @@ namespace ProfPlan.ViewModels
                     TablesCollection.Add(teacherTableCollection);
                     //Реализация листа Итого:
                 }
-                
+
 
 
             }
@@ -338,25 +379,27 @@ namespace ProfPlan.ViewModels
         {
             int ftableindex = FindTableIndex("П_ПИиИс");
             int stableindex = FindTableIndex("Ф_ПИиИс");
+
             if (ftableindex != -1 && stableindex != -1)
             {
                 for (int i = 0; i < TablesCollection[stableindex].ExcelData.Count; i++)
                 {
-                    if (TablesCollection[stableindex].ExcelData[i].Teacher == "")
+                    if (TablesCollection[stableindex].ExcelData[i] is ExcelModel excelModel && excelModel.Teacher == "")
                     {
-                        if (TablesCollection[ftableindex].ExcelData[i].Term == TablesCollection[stableindex].ExcelData[i].Term
-                       && TablesCollection[ftableindex].ExcelData[i].Group == TablesCollection[stableindex].ExcelData[i].Group
-                       && TablesCollection[ftableindex].ExcelData[i].Institute == TablesCollection[stableindex].ExcelData[i].Institute
-                       && TablesCollection[ftableindex].ExcelData[i].FormOfStudy == TablesCollection[stableindex].ExcelData[i].FormOfStudy &&
-                       TablesCollection[ftableindex].ExcelData[i].Teacher != "")
-                        {
-                            TablesCollection[stableindex].ExcelData[i].Teacher = TablesCollection[ftableindex].ExcelData[i].Teacher;
+                        ExcelModel stableData = TablesCollection[stableindex].ExcelData[i] as ExcelModel;
+                        ExcelModel ftableData = TablesCollection[ftableindex].ExcelData[i] as ExcelModel;
 
+                        if (stableData != null && ftableData != null &&
+                            stableData.Term == ftableData.Term &&
+                            stableData.Group == ftableData.Group &&
+                            stableData.Institute == ftableData.Institute &&
+                            stableData.FormOfStudy == ftableData.FormOfStudy &&
+                            ftableData.Teacher != "")
+                        {
+                            stableData.Teacher = ftableData.Teacher;
                         }
                     }
                 }
-
-                
             }
         }
         private int FindTableIndex(string tableName)
@@ -370,11 +413,11 @@ namespace ProfPlan.ViewModels
                 string currentTableName = Regex.Replace(TablesCollection[i].Tablename, @"[^\w\s]|_", "").ToLower();
                 if (currentTableName == cleanedTableNameLower)
                 {
-                    return i; 
+                    return i;
                 }
             }
 
-            return -1; 
+            return -1;
         }
 
 
