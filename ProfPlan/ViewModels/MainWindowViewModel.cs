@@ -16,6 +16,7 @@ using ProfPlan.Commads;
 using ExcelDataReader;
 using ProfPlan.Views;
 using System.Text.RegularExpressions;
+using System.Windows.Documents;
 
 namespace ProfPlan.ViewModels
 {
@@ -233,7 +234,6 @@ namespace ProfPlan.ViewModels
                                         {
                                         if (!string.IsNullOrEmpty(table.Rows[i][0].ToString()))
                                             list.Add(new ExcelTotal(
-
                                                 table.Rows[i][0].ToString(),
                                                 table.Rows[i][1].ToNullable<int>(),
                                                 null,
@@ -340,21 +340,22 @@ namespace ProfPlan.ViewModels
                 // Метод для создания TableCollection по преподавателям
 
                 var uniqueTeachers = TablesCollection[selectedtab].ExcelData
-    .Where(data => data is ExcelModel) // Фильтрация по типу ExcelModel
-    .Select(data => ((ExcelModel)data).Teacher) // Приведение к ExcelModel и выбор Teacher
-    .Distinct()
-    .ToList();
-
+                .Where(data => data is ExcelModel) // Фильтрация по типу ExcelModel
+                .Select(data => ((ExcelModel)data).Teacher) // Приведение к ExcelModel и выбор Teacher
+                .Distinct()
+                .ToList();
+                ObservableCollection<ExcelData> totallist = new ObservableCollection<ExcelData>();
                 foreach (var teacher in uniqueTeachers)
                 {
                     var teacherTableCollection = new TableCollection() { };
+                    
                     if (teacher.ToString() != "")
                         teacherTableCollection = new TableCollection(teacher.ToString().Split(' ')[0]);
                     else
                         teacherTableCollection = new TableCollection("Незаполненные");
                     var teacherRows = TablesCollection[selectedtab].ExcelData
-    .Where(data => data is ExcelModel && ((ExcelModel)data).Teacher == teacher)
-    .ToList();
+                    .Where(data => data is ExcelModel && ((ExcelModel)data).Teacher == teacher)
+                    .ToList();
                     foreach (ExcelModel techrow in teacherRows)
                     {
                         techrow.PropertyChanged += teacherTableCollection.ExcelModel_PropertyChanged;
@@ -364,7 +365,23 @@ namespace ProfPlan.ViewModels
                     teacherTableCollection.SubscribeToExcelDataChanges();
                     TablesCollection.Add(teacherTableCollection);
                     //Реализация листа Итого:
+
+                    if (teacherTableCollection.Tablename != "Незаполненные")
+                    {
+                        totallist.Add(new ExcelTotal(
+                        teacher,
+                            null,
+                        null,
+                            teacherTableCollection.TotalHours,
+                           teacherTableCollection.AutumnHours,
+                           teacherTableCollection.SpringHours,
+                            null)
+                            );
+
+                    }
                 }
+                string tabname = "Итого";
+                TablesCollection.Add(new TableCollection(tabname, totallist));
 
 
 

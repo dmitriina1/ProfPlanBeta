@@ -9,12 +9,9 @@ namespace ProfPlan.Models
     public class ExcelTotal: ExcelData
     {
         public string Teacher { get; set; }
-        public int? Bet { get; set; }
         public double? BetPercent { get; set; }  
-        public double? TotalHours { get; set; }
         public double? AutumnHours { get; set; }
         public double? SpringHours { get; set; }
-        public double? Difference { get; set; }
         public ExcelTotal() { }
         public ExcelTotal(string techer, int? bet, double? betpercent, double? total, double? autumnhours, double? springHours, double? difference)
         {
@@ -25,6 +22,56 @@ namespace ProfPlan.Models
             AutumnHours = autumnhours;
             SpringHours = springHours;
             Difference = difference;
+        }
+
+        private double? _difference;
+        public double? Difference
+        {
+            get { return _difference; }
+            set
+            {
+                if (_difference != value)
+                {
+                    _difference = value;
+                    OnPropertyChanged(nameof(Difference));
+                }
+            }
+        }
+
+        private int? _bet;
+        public int? Bet
+        {
+            get { return _bet; }
+            set
+            {
+                if (_bet != value)
+                {
+                    _bet = value;
+                    OnPropertyChanged(nameof(Bet));
+                    if(Bet != null && TotalHours != null)
+                    {
+                        Difference = TotalHours - Bet;
+                    }
+                }
+            }
+        }
+
+        private double? _totalHours;
+        public double? TotalHours
+        {
+            get { return _totalHours; }
+            set
+            {
+                if (_totalHours != value)
+                {
+                    _totalHours = value;
+                    OnPropertyChanged(nameof(TotalHours));
+                    if (Bet != null && TotalHours != null)
+                    {
+                        Difference = TotalHours - Bet;
+                    }
+                }
+            }
         }
     }
 }
