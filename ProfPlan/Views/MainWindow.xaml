@@ -42,6 +42,7 @@
                 <MenuItem Header="Список преподавателей" FontSize="14" HorizontalAlignment="Left" Command="{Binding ShowTeachersListCommand}"/>
             </MenuItem>
             <MenuItem Header="Отчеты" HorizontalAlignment="Left" FontSize="16">
+                <MenuItem Header="Составить отчеты" HorizontalAlignment="Left" FontSize="16" Command="{Binding ShowReportWindowCommand}"/>
             </MenuItem>
             <MenuItem Header="Помощь" HorizontalAlignment="Left" FontSize="16">
                 <MenuItem Header="О программе" FontSize="14" HorizontalAlignment="Left"/>

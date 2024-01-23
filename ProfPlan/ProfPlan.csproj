@@ -79,6 +79,9 @@
       <DependentUpon>AddTeacherWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MyContentTemplateSelector.cs" />
+    <Compile Include="Views\ReportWindow.xaml.cs">
+      <DependentUpon>ReportWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TeacherListWindow.xaml.cs">
       <DependentUpon>TeacherListWindow.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\Styles\Windows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

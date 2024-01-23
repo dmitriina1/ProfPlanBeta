@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProfPlan.Models
 {
-    public class TableCollection: ViewModel, INotifyPropertyChanged
+    public class TableCollection: ViewModel
     {
         private string _tablename = null;
         private ObservableCollection<ExcelData> _excelData = new ObservableCollection<ExcelData>();

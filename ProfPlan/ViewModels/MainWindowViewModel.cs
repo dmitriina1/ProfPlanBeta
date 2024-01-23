@@ -17,6 +17,8 @@ using ExcelDataReader;
 using ProfPlan.Views;
 using System.Text.RegularExpressions;
 using System.Windows.Documents;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ProfPlan.ViewModels
 {
@@ -277,6 +279,7 @@ namespace ProfPlan.ViewModels
         public MainWindowViewModel()
         {
             ShowTeachersListCommand = new RelayCommand(ShowWindow, CanShowWindow);
+            ShowReportWindowCommand = new RelayCommand(ShowReportWindow, CanShowWindow);
         }
         private bool CanShowWindow(object obj)
         {
@@ -437,7 +440,18 @@ namespace ProfPlan.ViewModels
             return -1;
         }
 
+        //Окно ReportWindow
 
+        public ICommand ShowReportWindowCommand { get; set; }
 
+        private void ShowReportWindow(object obj)
+        {
+            var reportwindow = obj as Window;
+
+            ReportWindow report = new ReportWindow();
+            report.Owner = reportwindow;
+            report.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            report.ShowDialog();
+        }
     }
 }
