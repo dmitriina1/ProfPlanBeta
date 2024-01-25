@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Title="ReportWindow" Height="350" Width="500">
     <Grid>
-        <DocumentViewer HorizontalAlignment="Center" Margin="0,42,0,0"
+        <ComboBox HorizontalAlignment="Left" Margin="32,22,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding TablesCollectionForReport}" DisplayMemberPath="Tablename"/>
+        <!--<DocumentViewer HorizontalAlignment="Center" Margin="0,42,0,0"
 
                     Name="documentViewer1" VerticalAlignment="Top" Height="292" Width="500" />
 
@@ -19,7 +20,7 @@
 
         <Button Content="Browse" Height="30" HorizontalAlignment="Right" Margin="0,6,353,0"
 
-            Name="BrowseButton" VerticalAlignment="Top" Width="122" Click="BrowseButton_Click" />
+            Name="BrowseButton" VerticalAlignment="Top" Width="122" Click="BrowseButton_Click" />-->
 
     </Grid>
 </Window>

@@ -23,7 +23,7 @@ using System.Windows.Media;
 namespace ProfPlan.ViewModels
 {
 
-    internal class MainWindowViewModel : ViewModel, INotifyPropertyChanged
+    internal class MainWindowViewModel : ViewModel
     {
         private int CountOfLists;
         private int Number = 1;
@@ -296,7 +296,7 @@ namespace ProfPlan.ViewModels
             teacherlist.Closed += TeacherListWindow_Closed;
             teacherlist.ShowDialog();
         }
-        private void TeacherListWindow_Closed(object sender, EventArgs e)
+        private async void TeacherListWindow_Closed(object sender, EventArgs e)
         {
             foreach (TableCollection tab in TablesCollection)
             {
@@ -312,11 +312,16 @@ namespace ProfPlan.ViewModels
                             newTeachList.Add($"{teacher.LastName} {teacher.FirstName[0]}.{teacher.MiddleName[0]}.");
                         }
 
-                        excelModel.Teachers = newTeachList;
+                        await Task.Run(() =>
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                excelModel.Teachers = newTeachList;
+                            });
+                        });
                     }
                 }
             }
-
         }
 
 
@@ -448,7 +453,7 @@ namespace ProfPlan.ViewModels
         {
             var reportwindow = obj as Window;
 
-            ReportWindow report = new ReportWindow();
+            ReportWindow report = new ReportWindow(TablesCollection);
             report.Owner = reportwindow;
             report.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             report.ShowDialog();

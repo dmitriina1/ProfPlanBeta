@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ProfPlan.Models;
+using ProfPlan.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,11 @@ namespace ProfPlan.Views
     /// </summary>
     public partial class ReportWindow : Window
     {
-        public ReportWindow()
+        public ReportWindow(ObservableCollection<TableCollection> TablesCollection)
         {
             InitializeComponent();
+            ReportViewModel ReportWindow = new ReportViewModel(TablesCollection);
+            this.DataContext = ReportWindow;
         }
     }
 }
