@@ -10,6 +10,11 @@ using System.Windows.Input;
 using ProfPlan.Models;
 using ProfPlan.ViewModels;
 using ProfPlan.ViewModels.Base;
+using ExcelDataReader;
+using System.Data;
+using System.IO;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ProfPlan.ViewModels
 {
@@ -55,11 +60,12 @@ namespace ProfPlan.ViewModels
 
                     // Create a new TableCollection for the sums and add it to TablesCollectionTeacherSum
                     TableCollection sumTableCollection = new TableCollection($"{tableCollection.Tablename}");
-                    sumTableCollection.ExcelData.Add(sumEven);
                     sumTableCollection.ExcelData.Add(sumOdd);
+                    sumTableCollection.ExcelData.Add(sumEven);
                     TablesCollectionTeacherSum.Add(sumTableCollection);
                 }
             }
+            SaveToExcel(TablesCollectionTeacherSum, "C://Users//DimasikAnanasik//OneDrive//Рабочий стол//ProfPlan Beta");
         }
         private ExcelModel CalculateSum(TableCollection tableCollection, string term)
         {
@@ -124,6 +130,151 @@ namespace ProfPlan.ViewModels
                 sumModel.Other = null;
 
             return sumModel;
+        }
+
+
+        //Сохранение
+
+        public static void SaveToExcel(ObservableCollection<TableCollection> tablesCollection, string directoryPath)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("CombinedTeachers");
+                int frow = 1, srow = 2;
+                // Добавление заголовков
+                
+                int columnNumber = 1;
+
+                worksheet.Range(frow, 1, frow, 3).Merge();
+                worksheet.Cell(frow, 1).Value = "Первое полугодие";
+                frow++;
+
+                worksheet.Cell(2, columnNumber++).Value = "Teacher";
+
+                List<string> propertyNames = new List<string>();
+
+                foreach (var propertyInfo in typeof(ExcelModel).GetProperties())
+                {
+                    if (propertyInfo.Name == "Lectures" || propertyInfo.Name == "Consultations" || propertyInfo.Name == "Laboratory" || propertyInfo.Name == "Practices" || propertyInfo.Name == "Tests" || propertyInfo.Name == "Exams" || propertyInfo.Name == "CourseProjects" || propertyInfo.Name == "CourseWorks" || propertyInfo.Name == "Diploma" || propertyInfo.Name == "RGZ" || propertyInfo.Name == "GEKAndGAK" || propertyInfo.Name == "ReviewDiploma" || propertyInfo.Name == "Other")
+                    {
+                        worksheet.Cell(2, columnNumber).Value = propertyInfo.Name;
+                        propertyNames.Add(propertyInfo.Name);
+                        columnNumber++;
+                    }
+                }
+
+                // Add "TotalSemester" column header
+                worksheet.Cell(2, columnNumber).Value = "TotalSemester";
+
+                // Заполнение данных - первые элементы
+                int rowNumber = 3;
+                foreach (var tableCollection in tablesCollection)
+                {
+                    string teacherName = tableCollection.Tablename; // Используем имя преподавателя из TableCollection
+
+                    if (tableCollection.ExcelData.Count >= 1)
+                    {
+                        var excelModel = tableCollection.ExcelData[0];
+                        columnNumber = 1;
+                        worksheet.Cell(rowNumber, columnNumber++).Value = teacherName;
+
+                        // Sum of all columns starting from column 2 (excluding "Teacher" column)
+                        double totalSemester = propertyNames.Sum(propertyName => Convert.ToDouble(typeof(ExcelModel).GetProperty(propertyName)?.GetValue(excelModel, null) ?? 0));
+                        foreach (var propertyName in propertyNames)
+                        {
+                            var value = typeof(ExcelModel).GetProperty(propertyName)?.GetValue(excelModel, null);
+                            worksheet.Cell(rowNumber, columnNumber++).Value = value != null ? value.ToString() : "";
+                        }
+
+                        // Add the TotalSemester value
+                        worksheet.Cell(rowNumber, columnNumber).Value = totalSemester;
+
+                        rowNumber++;
+                    }
+                }
+
+                // Add a gap of 10 rows
+                rowNumber += 6;
+
+                // Duplicate column headers
+                int headerRow = rowNumber;
+                srow = rowNumber - 1;
+                worksheet.Range(srow, 1, srow, 3).Merge();
+                worksheet.Cell(srow, 1).Value = "Второе полугодие";
+                srow++;
+                rowNumber++;
+                
+                columnNumber = 1;
+                worksheet.Cell(headerRow, columnNumber++).Value = "Teacher";
+                foreach (var propertyName in propertyNames)
+                {
+                    worksheet.Cell(headerRow, columnNumber++).Value = propertyName;
+                }
+                worksheet.Cell(headerRow, columnNumber).Value = "TotalSemester";
+
+                // Заполнение данных - вторые элементы
+                foreach (var tableCollection in tablesCollection)
+                {
+                    string teacherName = tableCollection.Tablename; // Используем имя преподавателя из TableCollection
+
+                    if (tableCollection.ExcelData.Count == 2)
+                    {
+                        var excelModel = tableCollection.ExcelData[1];
+
+                        columnNumber = 1;
+                        worksheet.Cell(rowNumber, columnNumber++).Value = teacherName;
+
+                        // Sum of all columns starting from column 2 (excluding "Teacher" column)
+                        double totalSemester = propertyNames.Sum(propertyName => Convert.ToDouble(typeof(ExcelModel).GetProperty(propertyName)?.GetValue(excelModel, null) ?? 0));
+                        foreach (var propertyName in propertyNames)
+                        {
+                            var value = typeof(ExcelModel).GetProperty(propertyName)?.GetValue(excelModel, null);
+                            worksheet.Cell(rowNumber, columnNumber++).Value = value != null ? value.ToString() : "";
+                        }
+
+                        // Add the TotalSemester value
+                        worksheet.Cell(rowNumber, columnNumber).Value = totalSemester;
+
+                        rowNumber++;
+                    }
+                }
+                SwapColumns(worksheet, 3, 5);
+                SwapColumns(worksheet, 8, 9);
+                SwapColumns(worksheet, 10, 11);
+                SwapColumns(worksheet, 11, 12);
+                List<string> newPropertyNames = new List<string>
+                {
+                    "Преподаватель", "Чтение лекций", "Консультации", "Лабораторные работы",
+                    "Практические занятия", "Зачеты", "Экзамены", "Курсовыми проектами",
+                    "Курсовыми работами", "Дипломными работами", "РГР", "ГЭК",
+                    "Проверка контрольных работ", "Другие виды работ", "Итог за семестр"
+                };
+                for (int i = 0; i < newPropertyNames.Count; i++)
+                {
+                    worksheet.Cell(srow, i + 1).Value = newPropertyNames[i];
+                    worksheet.Cell(frow, i + 1).Value = newPropertyNames[i];
+                }
+
+                // Сохранение в файл
+                string fileName = $"Бланк_Нагрузки.xlsx";
+                string filePath = Path.Combine(directoryPath, fileName);
+
+                // Сохранение в файл
+                workbook.SaveAs(filePath);
+            }
+        }
+
+        public static void SwapColumns(IXLWorksheet worksheet, int column1Index, int column2Index)
+        {
+            int startRow = worksheet.FirstRowUsed().RowNumber();
+            int endRow = worksheet.LastRowUsed().RowNumber();
+
+            for (int row = startRow; row <= endRow; row++)
+            {
+                var tempValue = worksheet.Cell(row, column1Index).Value;
+                worksheet.Cell(row, column1Index).Value = worksheet.Cell(row, column2Index).Value;
+                worksheet.Cell(row, column2Index).Value = tempValue;
+            }
         }
 
 
