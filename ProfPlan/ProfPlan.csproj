@@ -66,6 +66,7 @@
     <Compile Include="Commads\RelayCommand.cs" />
     <Compile Include="Models\ExcelData.cs" />
     <Compile Include="Models\ExcelTotal.cs" />
+    <Compile Include="Models\LoadForm.cs" />
     <Compile Include="Models\ObjectExtensions.cs" />
     <Compile Include="ViewModels\ExcelModel.cs" />
     <Compile Include="Models\TableCollection.cs" />

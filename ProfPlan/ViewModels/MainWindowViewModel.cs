@@ -451,12 +451,13 @@ namespace ProfPlan.ViewModels
 
         private void ShowReportWindow(object obj)
         {
-            var reportwindow = obj as Window;
+                var reportwindow = obj as Window;
 
-            ReportWindow report = new ReportWindow(TablesCollection);
-            report.Owner = reportwindow;
-            report.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            report.ShowDialog();
+                ReportWindow report = new ReportWindow(TablesCollection);
+                report.Owner = reportwindow;
+                report.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                report.ShowDialog();
+            
         }
     }
 }
