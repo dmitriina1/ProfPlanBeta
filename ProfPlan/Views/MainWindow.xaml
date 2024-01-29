@@ -27,7 +27,7 @@
         <Menu Grid.Row="0" Margin="5,5" Background="Transparent">
             <MenuItem Header="Файл" HorizontalAlignment="Left" FontSize="16">
                 <MenuItem Header="Открыть" FontSize="14" HorizontalAlignment="Left" Command="{Binding LoadDataCommand}"/>
-                <MenuItem Header="Сохранить" FontSize="14" HorizontalAlignment="Left"/>
+                <MenuItem Header="Сохранить" FontSize="14" HorizontalAlignment="Left" Command="{Binding SaveDataCommand}"/>
             </MenuItem>
             <MenuItem Header="Вид" HorizontalAlignment="Left" FontSize="16">
                 <!--Пусто-->

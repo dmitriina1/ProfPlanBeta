@@ -9,7 +9,41 @@ namespace ProfPlan.Models
     public class ExcelTotal: ExcelData
     {
         public string Teacher { get; set; }
-        public double? BetPercent { get; set; }  
+        private int? _bet;
+        public int? Bet
+        {
+            get { return _bet; }
+            set
+            {
+                if (_bet != value)
+                {
+                    _bet = value;
+                    OnPropertyChanged(nameof(Bet));
+                    if (Bet != null && TotalHours != null)
+                    {
+                        Difference = TotalHours - Bet;
+                    }
+                }
+            }
+        }
+        public double? BetPercent { get; set; }
+        private double? _totalHours;
+        public double? TotalHours
+        {
+            get { return _totalHours; }
+            set
+            {
+                if (_totalHours != value)
+                {
+                    _totalHours = value;
+                    OnPropertyChanged(nameof(TotalHours));
+                    if (Bet != null && TotalHours != null)
+                    {
+                        Difference = TotalHours - Bet;
+                    }
+                }
+            }
+        }
         public double? AutumnHours { get; set; }
         public double? SpringHours { get; set; }
         public ExcelTotal() { }
@@ -38,40 +72,8 @@ namespace ProfPlan.Models
             }
         }
 
-        private int? _bet;
-        public int? Bet
-        {
-            get { return _bet; }
-            set
-            {
-                if (_bet != value)
-                {
-                    _bet = value;
-                    OnPropertyChanged(nameof(Bet));
-                    if(Bet != null && TotalHours != null)
-                    {
-                        Difference = TotalHours - Bet;
-                    }
-                }
-            }
-        }
+        
 
-        private double? _totalHours;
-        public double? TotalHours
-        {
-            get { return _totalHours; }
-            set
-            {
-                if (_totalHours != value)
-                {
-                    _totalHours = value;
-                    OnPropertyChanged(nameof(TotalHours));
-                    if (Bet != null && TotalHours != null)
-                    {
-                        Difference = TotalHours - Bet;
-                    }
-                }
-            }
-        }
+        
     }
 }

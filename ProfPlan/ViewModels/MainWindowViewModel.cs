@@ -19,6 +19,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Documents;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ProfPlan.ViewModels
 {
@@ -389,7 +391,18 @@ namespace ProfPlan.ViewModels
                     }
                 }
                 string tabname = "Итого";
-                TablesCollection.Add(new TableCollection(tabname, totallist));
+                int inputindex = -1;
+                for (int i = 0; i < TablesCollection.Count; i++)
+                {
+                    var table = TablesCollection[i];
+                    if (table.Tablename.IndexOf(tabname, StringComparison.OrdinalIgnoreCase) != -1)
+                    {
+                        inputindex = i;
+                    }
+                }
+                if (inputindex == -1)
+                    inputindex = TablesCollection.Count - 2;
+                TablesCollection.Insert(inputindex+1,new TableCollection(tabname, totallist));
 
 
 
@@ -458,6 +471,137 @@ namespace ProfPlan.ViewModels
                 report.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 report.ShowDialog();
             
+        }
+
+
+        /// <summary>
+        /// ///////
+        /// </summary>
+        private RelayCommand _saveDataToExcel;
+        public ICommand SaveDataCommand
+        {
+            get { return _saveDataToExcel ?? (_saveDataToExcel = new RelayCommand(SaveToExcel)); }
+        }
+        private void SaveToExcel(object parameter)
+        {
+            SaveToExcels(TablesCollection, "C://Users//DimasikAnanasik//OneDrive//Рабочий стол//ProfPlan Beta");
+        }
+        private void SaveToExcels(ObservableCollection<TableCollection> tablesCollection, string directoryPath)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                List<string> propertyNames = new List<string>();
+                List<string> propertyNamesTotal = new List<string>();
+                foreach (var table in tablesCollection)
+                {
+                    int frow = 2;
+                    int columnNumber = 1;
+                    var worksheet = workbook.Worksheets.Add(table.Tablename);
+                    if (table.Tablename.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) != -1)
+                    {
+
+                        foreach (var propertyInfo in typeof(ExcelTotal).GetProperties())
+                        {
+                            worksheet.Cell(2, columnNumber).Value = propertyInfo.Name;
+                            propertyNamesTotal.Add(propertyInfo.Name);
+                            columnNumber++;
+
+                        }
+                        int rowNumber = 3;
+                        foreach (var excelTotal in table.ExcelData.OfType<ExcelTotal>())
+                        {
+                            columnNumber = 1;
+                            foreach (var propertyName in propertyNamesTotal)
+                            {
+                                var value = excelTotal.GetType().GetProperty(propertyName)?.GetValue(excelTotal, null);
+                                worksheet.Cell(rowNumber, columnNumber).Value = value != null ? value.ToString() : "";
+                                columnNumber++;
+                            }
+                            rowNumber++;
+                        }
+                    }
+                    else
+                    {
+                        columnNumber = 1;
+                        foreach (var propertyInfo in typeof(ExcelModel).GetProperties())
+                        {
+                            if (propertyInfo.Name != "Teachers")
+                            {
+                                worksheet.Cell(2, columnNumber).Value = propertyInfo.Name;
+                                propertyNames.Add(propertyInfo.Name);
+                                columnNumber++;
+                            }
+
+                        }
+                        var rowNumber = 3;
+                        foreach (var excelModel in table.ExcelData.OfType<ExcelModel>())
+                        {
+                            columnNumber = 1;
+                            foreach (var propertyName in typeof(ExcelModel).GetProperties().Select(p => p.Name))
+                            {
+                                if (propertyName != "Teachers")
+                                {
+                                    var value = excelModel.GetType().GetProperty(propertyName)?.GetValue(excelModel, null);
+                                    worksheet.Cell(rowNumber, columnNumber).Value = value != null ? value.ToString() : "";
+                                    columnNumber++;
+                                }
+                            }
+                            rowNumber++;
+                        }
+                        //int rowNumber = 3;
+                        //foreach (var excelModel in table.ExcelData.OfType<ExcelModel>())
+                        //{
+                        //    columnNumber = 1;
+                        //    foreach (var propertyName in propertyNames)
+                        //    {
+                        //        var value = typeof(ExcelModel).GetType().GetProperty(propertyName)?.GetValue(excelModel, null);
+                        //        worksheet.Cell(rowNumber, columnNumber++).Value = value != null ? value.ToString() : "";
+
+                        //    }
+                        //    rowNumber++;
+                        //}
+                    }
+                    List<string> newPropertyNames = new List<string>
+                {
+                    "№","Преподаватель", "Дисциплина","Семестр(четный или нечетный)","Группа","Институт","Число групп","Подгруппа","Форма обучения","Число студентов","Из них коммерч.","Недель","Форма отчетности","Лекции",  "Практики","Лабораторные","Консультации", "Зачеты", "Экзамены", "Курсовые работы", "Курсовые проекты",  "ГЭК+ПриемГЭК, прием ГАК",
+                    "Диплом","РГЗ_Реф, нормоконтроль","ПрактикаРабота, реценз диплом", "Прочее", "Всего","Бюджетные","Коммерческие"
+                };
+                    for (int i = 0; i < newPropertyNames.Count; i++)
+                    {
+                        worksheet.Cell(frow, i + 1).Value = newPropertyNames[i];
+                    }
+                    //// Добавьте заголовки
+                    //int columnNumber = 1;
+                    //worksheet.Cell(1, columnNumber++).Value = "Teacher";
+                    //foreach (var property in typeof(ExcelModel).GetProperties())
+                    //{
+                    //    if (property.Name != "Teachers")  // Пропустите свойство Teachers
+                    //        worksheet.Cell(1, columnNumber++).Value = property.Name;
+                    //}
+
+                    //int rowNumber = 2;
+                    //foreach (var excelModel in table.ExcelData)
+                    //{
+                    //    columnNumber = 1;
+                    //    worksheet.Cell(rowNumber, columnNumber++).Value = table.Tablename;
+                    //    foreach (var property in typeof(ExcelModel).GetProperties())
+                    //    {
+                    //        if (property.Name != "Teachers")  // Пропустите свойство Teachers
+                    //        {
+                    //            var value = property.GetValue(excelModel, null);
+                    //            worksheet.Cell(rowNumber, columnNumber++).Value = value != null ? value.ToString() : "";
+                    //        }
+                    //    }
+                    //    rowNumber++;
+                    //}
+                }
+
+                // Сохраните файл Excel
+                
+                string fileName = $"Save.xlsx";
+                string filePath = Path.Combine(directoryPath, fileName);
+                workbook.SaveAs(filePath);
+            }
         }
     }
 }
