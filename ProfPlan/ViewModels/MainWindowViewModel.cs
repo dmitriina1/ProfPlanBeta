@@ -233,7 +233,16 @@ namespace ProfPlan.ViewModels
                                 }
                                 else if (table.TableName.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) != -1)
                                 {
-                                    
+                                    bool hasBetPer = false;
+                                    for(int i=1; i<table.Columns.Count; i++)
+                                    {
+                                        if (table.Rows[0][i].ToString().IndexOf("%", StringComparison.OrdinalIgnoreCase) != -1)
+                                        {
+                                            hasBetPer = true;
+                                            break;
+                                        }
+                                    }
+                                    if(hasBetPer!=true)
                                     for (int i = 1; i < table.Rows.Count; i++)
                                         {
                                         if (!string.IsNullOrEmpty(table.Rows[i][0].ToString()))
@@ -246,9 +255,22 @@ namespace ProfPlan.ViewModels
                                                 table.Rows[i][4].ToNullable<double>(),
                                                 Math.Round(Convert.ToDouble(table.Rows[i][5].ToNullable<double>()),2)
                                                 )); 
-                                        
-                                            
-                                        
+                                    }
+                                    else
+                                    {
+                                        for (int i = 1; i < table.Rows.Count; i++)
+                                        {
+                                            if (!string.IsNullOrEmpty(table.Rows[i][0].ToString()))
+                                                list.Add(new ExcelTotal(
+                                                    table.Rows[i][0].ToString(),
+                                                     table.Rows[i][1].ToNullable<int>(),
+                                                    table.Rows[i][2].ToNullable<double>(),
+                                                    table.Rows[i][3].ToNullable<double>(),
+                                                    table.Rows[i][4].ToNullable<double>(),
+                                                    table.Rows[i][5].ToNullable<double>(),
+                                                    table.Rows[i][6].ToNullable<double>()
+                                                    ));
+                                        }
                                     }
 
 
@@ -492,6 +514,7 @@ namespace ProfPlan.ViewModels
             {
                 List<string> propertyNames = new List<string>();
                 List<string> propertyNamesTotal = new List<string>();
+                int scoretableheaders = 0;
                 foreach (var table in tablesCollection)
                 {
                     int frow = 2;
@@ -502,21 +525,29 @@ namespace ProfPlan.ViewModels
 
                         foreach (var propertyInfo in typeof(ExcelTotal).GetProperties())
                         {
-                            worksheet.Cell(2, columnNumber).Value = propertyInfo.Name;
-                            propertyNamesTotal.Add(propertyInfo.Name);
+                            worksheet.Cell(1, columnNumber).Value = propertyInfo.Name;
+                            if (scoretableheaders == 0)
+                            {
+                                propertyNamesTotal.Add(propertyInfo.Name);
+                            }
                             columnNumber++;
 
                         }
-                        int rowNumber = 3;
+                        scoretableheaders++;
+
+                        int rowNumber = 2;
                         foreach (var excelTotal in table.ExcelData.OfType<ExcelTotal>())
                         {
                             columnNumber = 1;
-                            foreach (var propertyName in propertyNamesTotal)
-                            {
-                                var value = excelTotal.GetType().GetProperty(propertyName)?.GetValue(excelTotal, null);
-                                worksheet.Cell(rowNumber, columnNumber).Value = value != null ? value.ToString() : "";
-                                columnNumber++;
-                            }
+                                foreach (var propertyName in propertyNamesTotal)
+                                {
+                                {
+                                    var value = excelTotal.GetType().GetProperty(propertyName)?.GetValue(excelTotal, null);
+                                    worksheet.Cell(rowNumber, columnNumber).Value = value != null ? value.ToString() : "";
+                                    columnNumber++;
+                                }
+                               }
+                            
                             rowNumber++;
                         }
                     }
@@ -566,9 +597,21 @@ namespace ProfPlan.ViewModels
                     "№","Преподаватель", "Дисциплина","Семестр(четный или нечетный)","Группа","Институт","Число групп","Подгруппа","Форма обучения","Число студентов","Из них коммерч.","Недель","Форма отчетности","Лекции",  "Практики","Лабораторные","Консультации", "Зачеты", "Экзамены", "Курсовые работы", "Курсовые проекты",  "ГЭК+ПриемГЭК, прием ГАК",
                     "Диплом","РГЗ_Реф, нормоконтроль","ПрактикаРабота, реценз диплом", "Прочее", "Всего","Бюджетные","Коммерческие"
                 };
+                    List<string> newPropertyTotalNames = new List<string>
+                {
+                    "ФИО","Ставка", "Ставка(%)","Всего","Осень","Весна","Разница"
+                };
+                    if (worksheet.Name.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) == -1)
                     for (int i = 0; i < newPropertyNames.Count; i++)
                     {
                         worksheet.Cell(frow, i + 1).Value = newPropertyNames[i];
+                    }
+                    else
+                    {
+                        for (int i = 0; i < newPropertyTotalNames.Count; i++)
+                        {
+                            worksheet.Cell(frow-1, i+1).Value = newPropertyTotalNames[i];
+                        }
                     }
                     //// Добавьте заголовки
                     //int columnNumber = 1;

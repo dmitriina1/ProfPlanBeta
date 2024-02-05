@@ -116,7 +116,7 @@ ItemsSource="{Binding Teachers}"/>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
                                 <ScrollViewer Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
-               HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+               HorizontalScrollBarVisibility="Visible"  VerticalScrollBarVisibility="Disabled">
                                     <TabPanel x:Name="headerPanel" Background="Transparent" 
                IsItemsHost="true" Margin="2,2,2,0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
                                 </ScrollViewer>
