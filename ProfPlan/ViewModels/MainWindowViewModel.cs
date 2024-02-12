@@ -486,13 +486,8 @@ namespace ProfPlan.ViewModels
 
         private void ShowReportWindow(object obj)
         {
-                var reportwindow = obj as Window;
-
-                ReportWindow report = new ReportWindow(TablesCollection);
-                report.Owner = reportwindow;
-                report.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                report.ShowDialog();
-            
+            ReportViewModel vm = new ReportViewModel(TablesCollection);
+            vm.SumAllTeachersTables();
         }
 
 
@@ -506,10 +501,23 @@ namespace ProfPlan.ViewModels
         }
         private void SaveToExcel(object parameter)
         {
-            SaveToExcels(TablesCollection, "C://Users//DimasikAnanasik//OneDrive//Рабочий стол//ProfPlan Beta");
+            SaveToExcels(TablesCollection);
         }
-        private void SaveToExcels(ObservableCollection<TableCollection> tablesCollection, string directoryPath)
+        private string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        private void SaveToExcels(ObservableCollection<TableCollection> tablesCollection)
         {
+            System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+
+            System.Windows.Forms.DialogResult result = folderBrowser.ShowDialog();
+
+            if (!string.IsNullOrWhiteSpace(folderBrowser.SelectedPath))
+            {
+                directoryPath = folderBrowser.SelectedPath;
+            }
+            else
+            {
+                return;
+            }
             using (var workbook = new XLWorkbook())
             {
                 List<string> propertyNames = new List<string>();
