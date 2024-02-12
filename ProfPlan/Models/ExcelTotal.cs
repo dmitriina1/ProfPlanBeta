@@ -23,6 +23,10 @@ namespace ProfPlan.Models
                     {
                         Difference = Math.Round(Convert.ToDouble(TotalHours - Bet),2);
                     }
+                    else
+                    {
+                        Difference = 0;
+                    }
                 }
             }
         }
@@ -40,6 +44,10 @@ namespace ProfPlan.Models
                     if (Bet != null && TotalHours != null)
                     {
                         Difference = Math.Round(Convert.ToDouble(TotalHours - Bet), 2);
+                    }
+                    else
+                    {
+                        Difference = 0;
                     }
                 }
             }
@@ -66,7 +74,11 @@ namespace ProfPlan.Models
             {
                 if (_difference != value)
                 {
-                    _difference = value;
+                    if (value != 0)
+                    {
+                        _difference = value;
+                    }
+                    else _difference = null;
                     OnPropertyChanged(nameof(Difference));
                 }
             }

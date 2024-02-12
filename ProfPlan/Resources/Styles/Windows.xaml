@@ -19,33 +19,33 @@ ItemsSource="{Binding Teachers}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Дисциплина" Binding="{Binding Discipline}"/>
-                <DataGridTextColumn Header="Семестр" Binding="{Binding Term}"/>
-                <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>
-                <DataGridTextColumn Header="Институт" Binding="{Binding Institute}"/>
-                <DataGridTextColumn Header="Число групп" Binding="{Binding GroupCount}"/>
-                <DataGridTextColumn Header="Подгруппа" Binding="{Binding SubGroup}"/>
-                <DataGridTextColumn Header="Форма обучения" Binding="{Binding FormOfStudy}"/>
-                <DataGridTextColumn Header="Число студентов" Binding="{Binding StudentsCount}"/>
-                <DataGridTextColumn Header="Из них комерч." Binding="{Binding CommercicalStudentsCount}"/>
-                <DataGridTextColumn Header="Недель" Binding="{Binding Weeks}"/>
-                <DataGridTextColumn Header="Форма отчетности" Binding="{Binding ReportingForm}"/>
-                <DataGridTextColumn Header="Лекции" Binding="{Binding Lectures}"/>
-                <DataGridTextColumn Header="Практики" Binding="{Binding Practices}"/>
-                <DataGridTextColumn Header="Лабораторные" Binding="{Binding Laboratory}"/>
-                <DataGridTextColumn Header="Консультации" Binding="{Binding Consultations}"/>
-                <DataGridTextColumn Header="Зачеты" Binding="{Binding Tests}"/>
-                <DataGridTextColumn Header="Экзамены" Binding="{Binding Exams}"/>
-                <DataGridTextColumn Header="Курсовые работы" Binding="{Binding CourseWorks}"/>
-                <DataGridTextColumn Header="Курсовые проекты" Binding="{Binding CourseProjects}"/>
-                <DataGridTextColumn Header="ГЭК+Прием ГЭК, прием ГАК" Binding="{Binding GEKAndGAK}"/>
-                <DataGridTextColumn Header="Диплом" Binding="{Binding Diploma}"/>
-                <DataGridTextColumn Header="РГЗ_Реф, нормоконтроль" Binding="{Binding RGZ}"/>
-                <DataGridTextColumn Header="ПрактикаРабота, реценз диплом" Binding="{Binding ReviewDiploma}"/>
-                <DataGridTextColumn Header="Прочее" Binding="{Binding Other}"/>
-                <DataGridTextColumn Header="Всего" Binding="{Binding Total}"/>
-                <DataGridTextColumn Header="Бюджетные" Binding="{Binding Budget}"/>
-                <DataGridTextColumn Header="Коммерческие" Binding="{Binding Commercial}"/>
+                <DataGridTextColumn Header="Дисциплина" Binding="{Binding Discipline, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Семестр" Binding="{Binding Term, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Группа" Binding="{Binding Group, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Институт" Binding="{Binding Institute, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Число групп" Binding="{Binding GroupCount, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Подгруппа" Binding="{Binding SubGroup, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Форма обучения" Binding="{Binding FormOfStudy, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Число студентов" Binding="{Binding StudentsCount, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Из них комерч." Binding="{Binding CommercicalStudentsCount, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Недель" Binding="{Binding Weeks, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Форма отчетности" Binding="{Binding ReportingForm, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Лекции" Binding="{Binding Lectures, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Практики" Binding="{Binding Practices, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Лабораторные" Binding="{Binding Laboratory, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Консультации" Binding="{Binding Consultations, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Зачеты" Binding="{Binding Tests, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Экзамены" Binding="{Binding Exams, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Курсовые работы" Binding="{Binding CourseWorks, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Курсовые проекты" Binding="{Binding CourseProjects, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="ГЭК+Прием ГЭК, прием ГАК" Binding="{Binding GEKAndGAK, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Диплом" Binding="{Binding Diploma, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="РГЗ_Реф, нормоконтроль" Binding="{Binding RGZ, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="ПрактикаРабота, реценз диплом" Binding="{Binding ReviewDiploma, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Прочее" Binding="{Binding Other, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Всего" Binding="{Binding Total, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Бюджетные" Binding="{Binding Budget, TargetNullValue=''}"/>
+                <DataGridTextColumn Header="Коммерческие" Binding="{Binding Commercial, TargetNullValue=''}"/>
             </DataGrid.Columns>
         </DataGrid>
     </DataTemplate>
@@ -53,13 +53,13 @@ ItemsSource="{Binding Teachers}"/>
     <DataTemplate  x:Key="SecondTemplate" >
         <DataGrid ItemsSource="{Binding ExcelData}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding Teacher}" />
-                <DataGridTextColumn Header="Ставка" Binding="{Binding Bet}" />
-                <DataGridTextColumn Header="Ставка (%)" Binding="{Binding BetPercent}" />
-                <DataGridTextColumn Header="Всего" Binding="{Binding TotalHours}" />
-                <DataGridTextColumn Header="Осень" Binding="{Binding AutumnHours}" />
-                <DataGridTextColumn Header="Весна" Binding="{Binding SpringHours}" />
-                <DataGridTextColumn Header="Разница" Binding="{Binding Difference}" />
+                <DataGridTextColumn Header="ФИО" Binding="{Binding Teacher, TargetNullValue=''}" />
+                <DataGridTextColumn Header="Ставка" Binding="{Binding Bet, TargetNullValue=''}" />
+                <DataGridTextColumn Header="Ставка (%)" Binding="{Binding BetPercent, TargetNullValue=''}" />
+                <DataGridTextColumn Header="Всего" Binding="{Binding TotalHours, TargetNullValue=''}" />
+                <DataGridTextColumn Header="Осень" Binding="{Binding AutumnHours, TargetNullValue=''}" />
+                <DataGridTextColumn Header="Весна" Binding="{Binding SpringHours, TargetNullValue=''}" />
+                <DataGridTextColumn Header="Разница" Binding="{Binding Difference, TargetNullValue=''}" />
             </DataGrid.Columns>
         </DataGrid>
     </DataTemplate>

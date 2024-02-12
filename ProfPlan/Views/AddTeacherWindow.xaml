@@ -20,28 +20,28 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Institute" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="0" Height="30" Text="{Binding Institute}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="0" Height="30" Text="{Binding Institute, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Label Grid.Row="1" Content="Department" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="1" Height="30" Text="{Binding Department}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="1" Height="30" Text="{Binding Department, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Label Grid.Row="2" Content="Lastname" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="2" Height="30" Text="{Binding Lastname}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="2" Height="30" Text="{Binding Lastname, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Label Grid.Row="3" Content="Firstname" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="3" Height="30" Text="{Binding Firstname}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="3" Height="30" Text="{Binding Firstname, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Label Grid.Row="4" Content="Middlename" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="4" Height="30" Text="{Binding Middlename}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="4" Height="30" Text="{Binding Middlename, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Label Grid.Row="5" Content="Position" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="5" Height="30" Text="{Binding Position}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="5" Height="30" Text="{Binding Position, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Label Grid.Row="6" Content="AcademicDegree" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="6" Height="30" Text="{Binding AcademicDegree}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="6" Height="30" Text="{Binding AcademicDegree, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Label Grid.Row="7" Content="Workload" Margin="25,0" VerticalAlignment="Top" HorizontalAlignment="left"/>
-        <TextBox Grid.Row="7" Height="30" Text="{Binding Workload}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
+        <TextBox Grid.Row="7" Height="30" Text="{Binding Workload, TargetNullValue=''}" Width="200" Margin="25,20,25,0" VerticalAlignment="Top" HorizontalAlignment="left" BorderThickness="1" BorderBrush="#E0E0E0" />
 
         <Button Grid.Row="8" Style="{StaticResource ButtonStyle}" Height="30" Command="{Binding AddTeacherCommand}" Content="Add" Width="70"  VerticalContentAlignment="Center" Padding="5" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderThickness="1" BorderBrush="#E0E0E0" />
 
