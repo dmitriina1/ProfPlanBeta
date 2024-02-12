@@ -16,6 +16,7 @@ using System.IO;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace ProfPlan.ViewModels
 {
@@ -128,18 +129,21 @@ namespace ProfPlan.ViewModels
             return sumModel;
         }
 
-        private string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        private string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"Бланк нагрузки {DateTime.Today:dd-MM-yyyy}");
         //Сохранение
         //Требуется доработка (удаление frow, srow и т.д.)
         public void SaveToExcel(ObservableCollection<TableCollection> tablesCollection)
         {
-            FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            saveFileDialog.Title = "Save Excel File";
+            saveFileDialog.FileName = $"Бланк_Нагрузки {DateTime.Today:dd-MM-yyyy}.xlsx";
 
-            DialogResult result = folderBrowser.ShowDialog();
+            DialogResult result = saveFileDialog.ShowDialog();
 
-            if (!string.IsNullOrWhiteSpace(folderBrowser.SelectedPath))
+            if (result == DialogResult.OK)
             {
-                directoryPath = folderBrowser.SelectedPath;
+                directoryPath = saveFileDialog.FileName;
             }
             else
             {
@@ -268,11 +272,9 @@ namespace ProfPlan.ViewModels
                 }
 
                 // Сохранение в файл
-                string fileName = $"Бланк_Нагрузки.xlsx";
-                string filePath = Path.Combine(directoryPath, fileName);
 
                 
-                workbook.SaveAs(filePath);
+                workbook.SaveAs(directoryPath);
             }
         }
 

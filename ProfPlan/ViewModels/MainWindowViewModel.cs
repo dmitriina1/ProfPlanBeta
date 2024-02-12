@@ -503,16 +503,19 @@ namespace ProfPlan.ViewModels
         {
             SaveToExcels(TablesCollection);
         }
-        private string directoryPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        private string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"Расчет нагрузки {DateTime.Today:dd-MM-yyyy}");
         private void SaveToExcels(ObservableCollection<TableCollection> tablesCollection)
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            saveFileDialog.Title = "Save Excel File";
+            saveFileDialog.FileName = $"Расчет Нагрузки {DateTime.Today:dd-MM-yyyy}.xlsx";
 
-            System.Windows.Forms.DialogResult result = folderBrowser.ShowDialog();
+            System.Windows.Forms.DialogResult result = saveFileDialog.ShowDialog();
 
-            if (!string.IsNullOrWhiteSpace(folderBrowser.SelectedPath))
+            if (result == System.Windows.Forms.DialogResult.OK)
             {
-                directoryPath = folderBrowser.SelectedPath;
+                directoryPath = saveFileDialog.FileName;
             }
             else
             {
@@ -649,9 +652,7 @@ namespace ProfPlan.ViewModels
 
                 // Сохраните файл Excel
                 
-                string fileName = $"Save.xlsx";
-                string filePath = Path.Combine(directoryPath, fileName);
-                workbook.SaveAs(filePath);
+                workbook.SaveAs(directoryPath);
             }
         }
     }
