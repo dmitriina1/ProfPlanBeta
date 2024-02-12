@@ -27,6 +27,7 @@ namespace ProfPlan.ViewModels
 
     internal class MainWindowViewModel : ViewModel
     {
+        private string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"Расчет нагрузки {DateTime.Today:dd-MM-yyyy}");
         private int CountOfLists;
         private int Number = 1;
         private DataTableCollection tableCollection;
@@ -71,6 +72,7 @@ namespace ProfPlan.ViewModels
                 var openFileDialog = new OpenFileDialog() { Filter = "Excel Files|*.xls;*.xlsx" };
                 if (openFileDialog.ShowDialog() == true)
                 {
+                    directoryPath = openFileDialog.FileName;
                     using (var stream = File.Open(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
                     {
                         using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
@@ -499,12 +501,12 @@ namespace ProfPlan.ViewModels
         {
             get { return _saveDataToExcel ?? (_saveDataToExcel = new RelayCommand(SaveToExcel)); }
         }
-        private void SaveToExcel(object parameter)
+        private RelayCommand _saveDataToExcelAs;
+        public ICommand SaveDataAsCommand
         {
-            SaveToExcels(TablesCollection);
+            get { return _saveDataToExcelAs ?? (_saveDataToExcelAs = new RelayCommand(SaveToExcelAs)); }
         }
-        private string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"Расчет нагрузки {DateTime.Today:dd-MM-yyyy}");
-        private void SaveToExcels(ObservableCollection<TableCollection> tablesCollection)
+        private void SaveToExcelAs(object parameter)
         {
             System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
@@ -521,6 +523,15 @@ namespace ProfPlan.ViewModels
             {
                 return;
             }
+            SaveToExcels(TablesCollection);
+        }
+        private void SaveToExcel(object parameter)
+        {
+            SaveToExcels(TablesCollection);
+        }
+        private void SaveToExcels(ObservableCollection<TableCollection> tablesCollection)
+        {
+            
             using (var workbook = new XLWorkbook())
             {
                 List<string> propertyNames = new List<string>();

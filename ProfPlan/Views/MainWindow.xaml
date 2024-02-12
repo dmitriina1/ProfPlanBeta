@@ -28,6 +28,7 @@
             <MenuItem Header="Файл" HorizontalAlignment="Left" FontSize="16">
                 <MenuItem Header="Открыть" FontSize="14" HorizontalAlignment="Left" Command="{Binding LoadDataCommand}"/>
                 <MenuItem Header="Сохранить" FontSize="14" HorizontalAlignment="Left" Command="{Binding SaveDataCommand}"/>
+                <MenuItem Header="Сохранить как" FontSize="14" HorizontalAlignment="Left" Command="{Binding SaveDataAsCommand}"/>
             </MenuItem>
             <MenuItem Header="Вид" HorizontalAlignment="Left" FontSize="16">
                 <!--Пусто-->
