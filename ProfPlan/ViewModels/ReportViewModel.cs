@@ -25,19 +25,13 @@ namespace ProfPlan.ViewModels
         //Получение таблиц из MainWindowViewModel;
         
         public ObservableCollection<TableCollection> TablesCollectionForReport { get; set; }
-        public ObservableCollection<TableCollection> TablesCollectionForComboBox { get; set; }
         public ReportViewModel(ObservableCollection<TableCollection> TablesCollection)
         {
             TablesCollectionForReport = new ObservableCollection<TableCollection>();
-            TablesCollectionForComboBox = new ObservableCollection<TableCollection>();
 
             foreach (var table in TablesCollection)
             {
                 TablesCollectionForReport.Add(table);
-                if (table.Tablename.IndexOf("ПИиИС", StringComparison.OrdinalIgnoreCase) != -1)
-                {
-                    TablesCollectionForComboBox.Add(table);
-                }
             }
         }
         /// <summary>
