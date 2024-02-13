@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ProfPlan.ViewModels.Base;
 
 namespace ProfPlan.Models
 {
-    public class ExcelModel: ExcelData
+    public class ExcelModel : ExcelData
     {
         private ObservableCollection<string> teachers = new ObservableCollection<string>();
 
@@ -54,13 +55,13 @@ namespace ProfPlan.Models
         public double? Total { get; set; }
         public double? Budget { get; set; }
         public double? Commercial { get; set; }
-        public ExcelModel(ObservableCollection<string> teachlist, 
-            int number, string teacher, string discipline, string term, 
-            string group, string institute, int? groupCount, string subGroup, 
-            string formOfStudy, int? studentsCount, int? commercicalStudentsCount, 
-            int? weeks, string reportingForm, double? lectures, double? practices, 
-            double? laboratory, double? consultations, double? tests, double? exams, 
-            double? courseWorks, double? courseProjects, double? gEKAndGAK, double? diploma, 
+        public ExcelModel(ObservableCollection<string> teachlist,
+            int number, string teacher, string discipline, string term,
+            string group, string institute, int? groupCount, string subGroup,
+            string formOfStudy, int? studentsCount, int? commercicalStudentsCount,
+            int? weeks, string reportingForm, double? lectures, double? practices,
+            double? laboratory, double? consultations, double? tests, double? exams,
+            double? courseWorks, double? courseProjects, double? gEKAndGAK, double? diploma,
             double? rGZ, double? reviewDiploma, double? other, double? total, double? budget,
             double? commercial)
         {
@@ -95,6 +96,23 @@ namespace ProfPlan.Models
             Budget = budget;
             Commercial = commercial;
         }
-        
+
+        public double SumProperties()
+        {
+            return (Lectures ?? 0) +
+                       (Consultations ?? 0) +
+                       (Laboratory ?? 0) +
+                       (Practices ?? 0) +
+                       (Tests ?? 0) +
+                       (Exams ?? 0) +
+                       (CourseProjects ?? 0) +
+                       (CourseWorks ?? 0) +
+                       (Diploma ?? 0) +
+                       (RGZ ?? 0) +
+                       (GEKAndGAK ?? 0) +
+                       (ReviewDiploma ?? 0) +
+                       (Other ?? 0);
+        }
+
     }
 }

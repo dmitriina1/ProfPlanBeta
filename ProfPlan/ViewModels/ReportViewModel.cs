@@ -15,7 +15,6 @@ using System.Data;
 using System.IO;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
-using System.Windows.Forms;
 using Microsoft.Win32;
 
 namespace ProfPlan.ViewModels
@@ -40,6 +39,7 @@ namespace ProfPlan.ViewModels
         
           
         public ObservableCollection<TableCollection> TablesCollectionTeacherSum{ get; set; }
+        private ObservableCollection<TableCollection> TableCollectionForDistribution { get; set; }
         public void SumAllTeachersTables()
         {
             TablesCollectionTeacherSum = new ObservableCollection<TableCollection>();
@@ -47,18 +47,193 @@ namespace ProfPlan.ViewModels
             {
                 if(tableCollection.Tablename.IndexOf("ПИиИС", StringComparison.OrdinalIgnoreCase) == -1 && tableCollection.Tablename.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) == -1 && tableCollection.Tablename.IndexOf("Незаполненные", StringComparison.OrdinalIgnoreCase) == -1 && tableCollection.Tablename.IndexOf("Доп", StringComparison.OrdinalIgnoreCase) == -1)
                 {
-                    
-                    ExcelModel sumEven = CalculateSum(tableCollection, "чет");
+                    int? bet = null;
+                    double? betPercent = null;
+                    double? totalHours = null;
+                    double? autumnHours = null;
+                    double? springHours = null;
+                    foreach (var tableCol in TablesCollectionForReport)
+                    {
+                        if(tableCol.Tablename.IndexOf("Итого", StringComparison.OrdinalIgnoreCase) != -1)
+                        {
+                            foreach (ExcelTotal exRow in tableCol)
+                            {
+                                if(exRow.Teacher.Split(' ').FirstOrDefault() == tableCollection.Tablename)
+                                {
+                                    bet = exRow.Bet;
+                                    betPercent = exRow.BetPercent;
+                                    totalHours = exRow.TotalHours;
+                                    autumnHours = exRow.AutumnHours;
+                                    springHours = exRow.SpringHours;
+                                }
+                            }
+                        }
+                    }
+                    TableCollection sumTableCollection;
+                    TableCollection sumTableCollectionTwo;
+                    //Сумма колонок для Итого
                     ExcelModel sumOdd = CalculateSum(tableCollection, "нечет");
+                    //Коллекция записей с Term = нечет
+                    ObservableCollection<ExcelModel> sumOddList = TotalSemesterCalculation(tableCollection, "нечет");
+                    //Total сумма
+                    //double sumod = SumObsColExModel(sumOdd);
 
-                    TableCollection sumTableCollection = new TableCollection($"{tableCollection.Tablename}");
-                    sumTableCollection.ExcelData.Add(sumOdd);
-                    sumTableCollection.ExcelData.Add(sumEven);
-                    TablesCollectionTeacherSum.Add(sumTableCollection);
+                    ExcelModel sumEven = CalculateSum(tableCollection, "чет");
+                    ObservableCollection<ExcelModel> sumEvenList = TotalSemesterCalculation(tableCollection, "чет");
+                    //double sumev = SumObsColExModel(sumEven);
+                    
+                    if(betPercent == 1 || betPercent == null)
+                    {
+                        sumTableCollection = new TableCollection($"{tableCollection.Tablename}");
+                        sumTableCollection.ExcelData.Add(sumOdd);
+                        sumTableCollection.ExcelData.Add(sumEven);
+                        TablesCollectionTeacherSum.Add(sumTableCollection);
+                    }
+                    else
+                    {
+                        double sum;
+                        if (betPercent > 1)
+                        {
+                            sumTableCollection = new TableCollection($"{tableCollection.Tablename}");
+                            sumTableCollectionTwo = new TableCollection($"{tableCollection.Tablename} {betPercent - 1}");
+                            TableCollection sumOddListOneBet = new TableCollection();
+                            TableCollection sumOddListTwoBet = new TableCollection();
+                            TableCollection sumEvenListOneBet = new TableCollection();
+                            TableCollection sumEvenListTwoBet = new TableCollection();
+
+                            sum = 0;
+                            foreach(ExcelModel excelModel in sumOddList)
+                            {
+                                if ((autumnHours/betPercent) > sum)
+                                {
+                                    sum += excelModel.SumProperties();
+                                    sumOddListOneBet.ExcelData.Add(excelModel);
+                                }
+                                else
+                                {
+                                    DeleteItemsFromObsCol(sumOddList,sumOddListOneBet.ExcelData.Count);
+                                    break;
+                                }
+                            }
+                            sum = 0;
+                            foreach (ExcelModel excelModel in sumOddList)
+                            {
+                                if ((autumnHours * (betPercent - 1)) > sum)
+                                {
+                                    sum += excelModel.SumProperties();
+                                    sumOddListTwoBet.ExcelData.Add(excelModel);
+                                }
+                                else
+                                {
+                                    DeleteItemsFromObsCol(sumOddList, sumOddListTwoBet.ExcelData.Count);
+                                    break;
+                                }
+                            }
+
+                            sum = 0;
+                            foreach (ExcelModel excelModel in sumEvenList)
+                            {
+                                if ((springHours / betPercent) > sum)
+                                {
+                                    sum += excelModel.SumProperties();
+                                    sumEvenListOneBet.ExcelData.Add(excelModel);
+                                }
+                                else
+                                {
+                                    DeleteItemsFromObsCol(sumEvenList, sumEvenListOneBet.ExcelData.Count);
+                                    break;
+                                }
+                            }
+                            sum = 0;
+                            foreach (ExcelModel excelModel in sumEvenList)
+                            {
+                                if ((springHours * (betPercent - 1)) > sum)
+                                {
+                                    sum += excelModel.SumProperties();
+                                    sumEvenListTwoBet.ExcelData.Add(excelModel);
+                                }
+                                else
+                                {
+                                    DeleteItemsFromObsCol(sumEvenList, sumEvenListTwoBet.ExcelData.Count);
+                                    break;
+                                }
+                            }
+                            ExcelModel sumOddOneBet = CalculateSum(sumOddListOneBet, "нечет");
+                            ExcelModel sumOddTwoBet = CalculateSum(sumOddListTwoBet, "нечет");
+                            ExcelModel sumEvenOneBet = CalculateSum(sumEvenListOneBet, "чет");
+                            ExcelModel sumEvenTwoBet = CalculateSum(sumEvenListTwoBet, "чет");
+                            sumTableCollection.ExcelData.Add(sumOddOneBet);
+                            sumTableCollection.ExcelData.Add(sumEvenOneBet);
+                            TablesCollectionTeacherSum.Add(sumTableCollection);
+
+                            sumTableCollectionTwo.ExcelData.Add(sumOddTwoBet);
+                            sumTableCollectionTwo.ExcelData.Add(sumEvenTwoBet);
+                            TablesCollectionTeacherSum.Add(sumTableCollectionTwo);
+                        }
+                        else
+                        {
+                            sumTableCollection = new TableCollection($"{tableCollection.Tablename}");
+                            TableCollection sumListOneBet = new TableCollection();
+                            sum = 0;
+                            foreach (ExcelModel excelModel in sumOddList)
+                            {
+                                if ((autumnHours * betPercent) > sum)
+                                {
+                                    sum += excelModel.SumProperties();
+                                    sumListOneBet.ExcelData.Add(excelModel);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            sum = 0;
+                            foreach (ExcelModel excelModel in sumEvenList)
+                            {
+                                if ((springHours * betPercent) > sum)
+                                {
+                                    sum += excelModel.SumProperties();
+                                    sumListOneBet.ExcelData.Add(excelModel);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            ExcelModel sumOddBet = CalculateSum(sumListOneBet, "нечет");
+                            ExcelModel sumEvenBet = CalculateSum(sumListOneBet, "чет");
+                            sumTableCollection.ExcelData.Add(sumOddBet);
+                            sumTableCollection.ExcelData.Add(sumEvenBet);
+                            TablesCollectionTeacherSum.Add(sumTableCollection);
+                        }
+                    }
+
+                    
+
                 }
             }
             SaveToExcel(TablesCollectionTeacherSum);
         }
+
+        
+        private void DeleteItemsFromObsCol(ObservableCollection<ExcelModel> collection, int indexToRemoveUpTo)
+        {
+            for (int i = 0; i <= indexToRemoveUpTo && collection.Count > 0; i++)
+            {
+                collection.RemoveAt(0);
+            }
+        }
+
+        private ObservableCollection<ExcelModel> TotalSemesterCalculation(TableCollection tableCollection, string term)
+        {
+            ObservableCollection<ExcelModel> ex = new ObservableCollection<ExcelModel>();
+            foreach (var excelModel in tableCollection.ExcelData.OfType<ExcelModel>().Where(x => x.Term != null && x.Term.Equals(term, StringComparison.OrdinalIgnoreCase)))
+            {
+                ex.Add(excelModel);
+            }
+            return ex;
+        }
+
         private ExcelModel CalculateSum(TableCollection tableCollection, string term)
         {
             var sumModel = new ExcelModel(new ObservableCollection<string>(), 0, "", "", term, "", "", null, "", "", null, null, null,
@@ -133,9 +308,9 @@ namespace ProfPlan.ViewModels
             saveFileDialog.Title = "Save Excel File";
             saveFileDialog.FileName = $"Бланк_Нагрузки {DateTime.Today:dd-MM-yyyy}.xlsx";
 
-            DialogResult result = saveFileDialog.ShowDialog();
+            System.Windows.Forms.DialogResult result = saveFileDialog.ShowDialog();
 
-            if (result == DialogResult.OK)
+            if (result == System.Windows.Forms.DialogResult.OK)
             {
                 directoryPath = saveFileDialog.FileName;
             }

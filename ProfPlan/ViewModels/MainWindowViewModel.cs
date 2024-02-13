@@ -425,7 +425,7 @@ namespace ProfPlan.ViewModels
                     }
                 }
                 if (inputindex == -1)
-                    inputindex = TablesCollection.Count - 2;
+                    inputindex = 1;
                 TablesCollection.Insert(inputindex+1,new TableCollection(tabname, totallist));
 
 
