@@ -111,7 +111,7 @@ namespace ProfPlan.ViewModels
                                 }
                                 else
                                 {
-                                    DeleteItemsFromObsCol(sumOddList,sumOddListOneBet.ExcelData.Count);
+                                    DeleteItemsFromObsCol(sumOddList,sumOddListOneBet.ExcelData.Count-1);
                                     break;
                                 }
                             }
@@ -125,7 +125,7 @@ namespace ProfPlan.ViewModels
                                 }
                                 else
                                 {
-                                    DeleteItemsFromObsCol(sumOddList, sumOddListTwoBet.ExcelData.Count);
+                                    DeleteItemsFromObsCol(sumOddList, sumOddListTwoBet.ExcelData.Count-1);
                                     break;
                                 }
                             }
@@ -140,7 +140,7 @@ namespace ProfPlan.ViewModels
                                 }
                                 else
                                 {
-                                    DeleteItemsFromObsCol(sumEvenList, sumEvenListOneBet.ExcelData.Count);
+                                    DeleteItemsFromObsCol(sumEvenList, sumEvenListOneBet.ExcelData.Count-1);
                                     break;
                                 }
                             }
@@ -154,7 +154,7 @@ namespace ProfPlan.ViewModels
                                 }
                                 else
                                 {
-                                    DeleteItemsFromObsCol(sumEvenList, sumEvenListTwoBet.ExcelData.Count);
+                                    DeleteItemsFromObsCol(sumEvenList, sumEvenListTwoBet.ExcelData.Count-1);
                                     break;
                                 }
                             }
@@ -169,6 +169,7 @@ namespace ProfPlan.ViewModels
                             sumTableCollectionTwo.ExcelData.Add(sumOddTwoBet);
                             sumTableCollectionTwo.ExcelData.Add(sumEvenTwoBet);
                             TablesCollectionTeacherSum.Add(sumTableCollectionTwo);
+
                         }
                         else
                         {
